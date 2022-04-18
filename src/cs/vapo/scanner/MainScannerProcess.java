@@ -1,8 +1,12 @@
+/*
+ * Written by: Víctor Padrón 2022
+ * Student ID: A01561947
+ *
+ * */
 package cs.vapo.scanner;
 
 import cs.vapo.scanner.DFA.DFA;
 import cs.vapo.scanner.DFA.TransitionTable;
-import jdk.internal.util.xml.impl.Input;
 
 import java.io.File;
 
@@ -21,6 +25,9 @@ public class MainScannerProcess {
         this.currentFile = file;
         inputStream = new InputStream(currentFile);
         dfa = new DFA(inputStream);
+        while(inputStream.getCurrentChar() != -1){
+            dfa.readNextToken();
+        }
     }
 
 }
