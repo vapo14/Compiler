@@ -28,7 +28,7 @@ public class TransitionTable {
         };
     }
 
-    public int move(char c) {
+    public int move(int state, char c) {
         return 0;
     }
 }

@@ -6,15 +6,13 @@ import java.io.FileReader;
 
 public class InputStream {
 
-    String filepath;
     File currentFile;
     FileReader fileReader;
     int lineCount;
     int columnCount;
 
 
-    public InputStream(String filePath, File currentFile){
-        this.filepath = filePath;
+    public InputStream(File currentFile){
         this.currentFile = currentFile;
         try{
             fileReader = new FileReader(currentFile);
