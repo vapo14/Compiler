@@ -14,7 +14,7 @@ public class DFA {
     String tokenBuffer;
     boolean isComment;
 
-    public DFA(InputStream inputStream){
+    public DFA(InputStream inputStream) {
         this.inputStream = inputStream;
         this.transitionTable = new TransitionTable();
         tokenBuffer = "";
@@ -22,34 +22,45 @@ public class DFA {
     }
 
     //TODO: implement a look ahead
-    public void readNextToken(){
+    public int readNextToken() {
         tokenBuffer = "";
         int state = 0;
         isComment = false;
         char currentChar = inputStream.readChar();
         appendBuffer(currentChar);
-        while (!transitionTable.acceptStates[state] && !transitionTable.errorStates[state]){
+        while (!transitionTable.acceptStates[state] && !transitionTable.errorStates[state]) {
             int newState = transitionTable.moveState(state, currentChar);
-            if(newState == 4 || newState == 5){
+            if (newState == 4 || newState == 5) {
                 isComment = true;
                 tokenBuffer = "";
             }
-            if(transitionTable.advanceInput(state, currentChar) && transitionTable.advanceInput(state, inputStream.peek())){
+            if (transitionTable.advanceInput(state, currentChar) && !transitionTable.isDelimiter(state, inputStream.peek())) {
                 currentChar = inputStream.readChar();
                 appendBuffer(currentChar);
+            } else {
+                currentChar = inputStream.peek();
             }
             state = newState;
         }
-        if(transitionTable.acceptStates[state]){
+        if (transitionTable.acceptStates[state]) {
             // TODO: record token
-            System.out.println("Token: " + tokenBuffer);
+            switch (state) {
+                case 10:
+                    break;
+                default:
+                    break;
+            }
+            System.out.println("Token: " + tokenBuffer + " State: " + state);
+
         } else {
             //TODO: ERROR
-            System.out.println("Error in line: " + inputStream.getLineCount());
+            System.out.println("Error in line: " + inputStream.getLineCount() + "\n\tColumn: " + inputStream.getColumnCount());
+            return -1;
         }
+        return 0;
     }
 
-    private void appendBuffer(Character c){
-        if(!isComment) tokenBuffer += c;
+    private void appendBuffer(Character c) {
+        if (!isComment && !transitionTable.isWhiteSpace(c)) tokenBuffer += c;
     }
 }

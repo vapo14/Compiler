@@ -11,7 +11,7 @@ public class TransitionTable {
 
     String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     String nums = "01234556789";
-    String whiteSpaces = "\n\t ";
+    char[] whiteSpaces = {'\n', '\t', '\r', ' ', '\uFFFF'};
 
     CustomHashMap<Character, Integer> charMap;
 
@@ -21,7 +21,7 @@ public class TransitionTable {
     int[][] transition;
 
     public TransitionTable() {
-        acceptStates = new boolean[]{false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true};
+        acceptStates = new boolean[]{false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, false, false};
         errorStates = new boolean[]{false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, true};
         advanceStates = new boolean[][]{
                 {true,true,false,false,false,true,true,true,true,true,false,false,false,false,false,false,false,false,true,false},
@@ -112,11 +112,20 @@ public class TransitionTable {
     }
 
     boolean isWhiteSpace(Character c){
-        for(int i = 0; i < whiteSpaces.length(); i++){
-            if(whiteSpaces.charAt(i) == c){
+        for(int i = 0; i < whiteSpaces.length; i++){
+            if(whiteSpaces[i] == c){
                 return true;
             }
         }
+        return false;
+    }
+
+    boolean isDelimiter(int state, Character c){
+        if(charMap.get(c) == null){
+            return false;
+        }
+        // TODO: modify function for other delimiters
+        if(transition[state][charMap.get(c)] > 9) return true;
         return false;
     }
 }

@@ -25,8 +25,8 @@ public class MainScannerProcess {
         this.currentFile = file;
         inputStream = new InputStream(currentFile);
         dfa = new DFA(inputStream);
-        while(inputStream.getCurrentChar() != -1){
-            dfa.readNextToken();
+        while(inputStream.getCurrentChar() != '\uFFFF' && inputStream.getCurrentChar() != -1){
+            if(dfa.readNextToken() < 0) break;
         }
         inputStream.closeFile();
     }

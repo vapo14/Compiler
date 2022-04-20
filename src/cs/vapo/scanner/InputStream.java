@@ -24,10 +24,10 @@ public class InputStream {
         } catch (FileNotFoundException e) {
             System.out.println("File not found.");
         }
-        this.lineCount = 0;
+        this.lineCount = 1;
         this.columnCount = 0;
-        this.currentChar = 0;
         pushbackReader = new PushbackReader(fileReader);
+        this.currentChar = peek();
     }
 
     public char readChar() {
@@ -63,6 +63,7 @@ public class InputStream {
         }catch (IOException e){
             System.out.println("Error while peeking input stream");
         }
+        currentChar = c;
         return c;
     }
 
