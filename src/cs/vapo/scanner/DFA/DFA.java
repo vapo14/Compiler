@@ -26,9 +26,8 @@ public class DFA {
         tokenBuffer = "";
         int state = 0;
         isComment = false;
-        char currentChar =  inputStream.readChar();
+        char currentChar = inputStream.readChar();
         while (!transitionTable.acceptStates[state] && !transitionTable.errorStates[state]){
-            appendBuffer(currentChar);
             int newState = transitionTable.moveState(state, currentChar);
             if(newState == 4 || newState == 5){
                 isComment = true;
@@ -44,6 +43,7 @@ public class DFA {
             System.out.println("Token: " + tokenBuffer);
         } else {
             //TODO: ERROR
+            System.out.println("Error in line: " + inputStream.getLineCount());
         }
     }
 

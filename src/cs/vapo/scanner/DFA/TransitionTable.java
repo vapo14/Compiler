@@ -93,7 +93,7 @@ public class TransitionTable {
         return advanceStates[state][charMap.get(c)];
     }
 
-    private boolean isLetter(Character c){
+    boolean isLetter(Character c){
         for(int i = 0; i < alphabet.length(); i++){
             if(alphabet.charAt(i) == c){
                 return true;
@@ -102,7 +102,7 @@ public class TransitionTable {
         return false;
     }
 
-    private boolean isNum(Character c){
+    boolean isNum(Character c){
         for(int i = 0; i < nums.length(); i++){
             if(nums.charAt(i) == c){
                 return true;
@@ -111,7 +111,7 @@ public class TransitionTable {
         return false;
     }
 
-    private boolean isWhiteSpace(Character c){
+    boolean isWhiteSpace(Character c){
         for(int i = 0; i < whiteSpaces.length(); i++){
             if(whiteSpaces.charAt(i) == c){
                 return true;
