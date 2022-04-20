@@ -112,8 +112,8 @@ public class TransitionTable {
     }
 
     boolean isWhiteSpace(Character c){
-        for(int i = 0; i < whiteSpaces.length; i++){
-            if(whiteSpaces[i] == c){
+        for (char whiteSpace : whiteSpaces) {
+            if (whiteSpace == c) {
                 return true;
             }
         }
@@ -121,11 +121,17 @@ public class TransitionTable {
     }
 
     boolean isDelimiter(int state, Character c){
-        if(charMap.get(c) == null){
-            return false;
+        if((state == 6 || state == 7 || state == 8 || state == 9) && c == '=') return false;
+        if(isLetter(c))
+            return acceptStates[transition[state][0]];
+        else if(isNum(c))
+            return acceptStates[transition[state][1]];
+        else if(isWhiteSpace(c)){
+            return acceptStates[transition[state][18]];
         }
-        // TODO: modify function for other delimiters
-        if(transition[state][charMap.get(c)] > 9) return true;
-        return false;
+        else if(charMap.get(c) == null)
+            return acceptStates[transition[state][19]];
+        if(state == 0 || state == 5) return false;
+        return acceptStates[transition[state][charMap.get(c)]];
     }
 }

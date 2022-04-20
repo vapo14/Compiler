@@ -9,10 +9,16 @@ public class Token {
     int id;
     int pointer;
 
+    public Token(int id){
+        this.id = id;
+        this.pointer = -1;
+    }
+
     public Token(int id, int pointer){
         this.id = id;
         this.pointer = pointer;
     }
+
 
     public int getId() {
         return id;
@@ -32,9 +38,10 @@ public class Token {
 
     @Override
     public String toString() {
+        String ptr = pointer == -1 ? "" : ", pointer=" + Integer.toString(pointer);
         return "Token{" +
                 "id=" + id +
-                ", pointer=" + pointer +
+                ptr +
                 '}';
     }
 }
