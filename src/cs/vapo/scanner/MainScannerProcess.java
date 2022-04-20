@@ -22,6 +22,7 @@ public class MainScannerProcess {
     }
 
     public void initRead(File file){
+        if(file == null)
         this.currentFile = file;
         inputStream = new InputStream(currentFile);
         dfa = new DFA(inputStream);

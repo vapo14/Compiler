@@ -7,11 +7,19 @@ package cs.vapo.CLI;
 
 public class CLI {
 
-    public CLI(){
+    private String [] args;
+    private String filename;
 
+    public CLI(String[] args){
+        this.args = args;
+        this.filename = args[0];
     }
 
     public void sendMessage(String message){
         System.out.println(message);
+    }
+
+    public String getFileName(){
+        return this.filename;
     }
 }
