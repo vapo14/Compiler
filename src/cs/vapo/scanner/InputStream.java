@@ -11,7 +11,7 @@ public class InputStream {
 
     File currentFile;
     FileReader fileReader;
-    PushbackReader bufferedReader;
+    PushbackReader pushbackReader;
     int currentChar;
     private int lineCount;
     private int columnCount;
@@ -21,20 +21,20 @@ public class InputStream {
         this.currentFile = currentFile;
         try {
             fileReader = new FileReader(currentFile);
-            bufferedReader = new PushbackReader(fileReader);
         } catch (FileNotFoundException e) {
             System.out.println("File not found.");
         }
         this.lineCount = 0;
         this.columnCount = 0;
         this.currentChar = 0;
+        pushbackReader = new PushbackReader(fileReader);
     }
 
     public char readChar() {
         // FIXME: i dont like this exception handling
         char c = 'e';
         try {
-            currentChar = bufferedReader.read();
+            currentChar = pushbackReader.read();
             c = (char) currentChar;
             if (c == '\n'){
                 incrementLine();
@@ -47,22 +47,30 @@ public class InputStream {
         return c;
     }
 
-    public char peekChar(){
+    public void returnChar (char c){
+        try{
+            pushbackReader.unread(c);
+        }catch (IOException e){
+            System.out.println("Error returning char: " + e);
+        }
+    }
+
+    public char peek(){
         char c = 'e';
         try{
-            c = (char) bufferedReader.read();
-            bufferedReader.unread(c);
+            c = (char) pushbackReader.read();
+            pushbackReader.unread(c);
         }catch (IOException e){
-            System.out.println("Peeking failed");
+            System.out.println("Error while peeking input stream");
         }
         return c;
     }
 
-    public void returnChar(char c){
+    public void closeFile(){
         try{
-            bufferedReader.unread(c);
+            fileReader.close();
         }catch (IOException e){
-            System.out.println("Peeking failed");
+            System.out.println("Error closing file.");
         }
     }
 

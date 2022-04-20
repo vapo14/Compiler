@@ -28,6 +28,7 @@ public class MainScannerProcess {
         while(inputStream.getCurrentChar() != -1){
             dfa.readNextToken();
         }
+        inputStream.closeFile();
     }
 
 }

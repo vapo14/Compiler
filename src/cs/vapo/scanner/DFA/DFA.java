@@ -27,14 +27,16 @@ public class DFA {
         int state = 0;
         isComment = false;
         char currentChar = inputStream.readChar();
+        appendBuffer(currentChar);
         while (!transitionTable.acceptStates[state] && !transitionTable.errorStates[state]){
             int newState = transitionTable.moveState(state, currentChar);
             if(newState == 4 || newState == 5){
                 isComment = true;
                 tokenBuffer = "";
             }
-            if(transitionTable.advanceInput(state, currentChar)){
+            if(transitionTable.advanceInput(state, currentChar) && transitionTable.advanceInput(state, inputStream.peek())){
                 currentChar = inputStream.readChar();
+                appendBuffer(currentChar);
             }
             state = newState;
         }
