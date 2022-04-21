@@ -19,7 +19,6 @@ import java.io.File;
  */
 public class MainScannerProcess {
 
-    String currentTokenBuffer;
     DFA dfa;
     InputStream inputStream;
     File currentFile;
@@ -27,7 +26,6 @@ public class MainScannerProcess {
     CLI cli = Main.cli;
 
     public MainScannerProcess(){
-        currentTokenBuffer = "";
         tokenStream = new CustomVector<>();
     }
 

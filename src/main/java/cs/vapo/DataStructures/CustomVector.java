@@ -10,7 +10,7 @@ package cs.vapo.DataStructures;
  * @param <T>
  */
 public class CustomVector<T> {
-    private int initialCapacity = 10;
+    private final int initialCapacity = 10;
     private int currentCapacity;
     private int numItems;
 
@@ -41,7 +41,7 @@ public class CustomVector<T> {
 
     /**
      *
-     * @param index
+     * @param index index
      * @return returns object at index
      */
     public T get(int index){
@@ -51,8 +51,8 @@ public class CustomVector<T> {
     /**
      *
      * Sets object at index
-     * @param index
-     * @param value
+     * @param index index
+     * @param value value
      */
     public void set(int index, T value){
         data[index] = value;
@@ -60,7 +60,7 @@ public class CustomVector<T> {
 
     /**
      * Reserves space in the vector by given capacity
-     * @param newCapacity
+     * @param newCapacity new capacity
      */
     void reserve(int newCapacity){
         if(newCapacity > currentCapacity){
@@ -90,9 +90,9 @@ public class CustomVector<T> {
     }
 
     /**
-     * 1 for vertical, any other int for horizontal
-     * @param orientation
-     * @return
+     *
+     * @param orientation 1 for vertical, any other int for horizontal
+     * @return string to print
      */
     public String toString(int orientation){
         String str = "";

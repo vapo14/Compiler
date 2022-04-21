@@ -64,18 +64,16 @@ public class DFA {
         appendBuffer(currentChar);
         // repeat until reaching an accept or error state
         while (!transitionTable.acceptStates[state] && !transitionTable.errorStates[state]) {
+            // if we haven't moved state and reached the end of file, end DFA process
+            if(currentChar == '\uFFFF' && state == 0) break;
             // get the new state with currentChar
             int newState = transitionTable.moveState(state, currentChar);
             // if the current char is part of a comment, disregard from buffer
             if (newState == 4 || newState == 5) {
                 isComment = true;
                 tokenBuffer = "";
-                // if we have reached the EOF and we are inside a comment, terminate execution
-                // and handle error
-                if(currentChar == '\uFFFF'){
-                    state = 36;
-                    break;
-                }
+                // if we haven't moved state and reached the end of file, end DFA process
+                if(currentChar == '\uFFFF') break;
             }
             // as long as the character is not a delimiter for the next state
             // advance the input stream. If it is a delimiter, read the character but
@@ -127,9 +125,11 @@ public class DFA {
             // invalid operator construction
             case 35 -> cli.sendMessage("Invalid operator: " + tokenBuffer + " in line: " + inputStream.getLineCount() + ":" + inputStream.getColumnCount());
 
-            // comment not closed error
-            case 36 -> cli.sendMessage("Comment not closed in line: " + inputStream.getLineCount() + ":" + inputStream.getColumnCount() + ", reached EOF.");
             default -> {
+                if(state == 4 || state == 5){
+                    // error state not reached, comment not closed error
+                    cli.sendMessage("Comment not closed in line: " + inputStream.getLineCount() + ":" + inputStream.getColumnCount() + ", reached EOF.");
+                }
             }
         }
     }

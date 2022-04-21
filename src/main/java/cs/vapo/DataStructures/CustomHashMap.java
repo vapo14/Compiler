@@ -5,8 +5,6 @@
  * */
 package cs.vapo.DataStructures;
 
-import java.util.Objects;
-
 /**
  * Custom HashMap implementation
  * @param <K> key
@@ -37,7 +35,7 @@ public class CustomHashMap<K, V> {
      * @return hash for the given key
      */
     private int getHash(K key){
-        return Objects.hash(key);
+        return key.hashCode();
     }
 
     private int getKeyIndex(K key){
