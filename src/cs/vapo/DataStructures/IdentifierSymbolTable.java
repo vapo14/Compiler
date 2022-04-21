@@ -29,12 +29,12 @@ public class IdentifierSymbolTable {
     public int add(String identifier){
         int currId;
         if(!exists(identifier)){
-            idCount++;
             currId = idCount;
             indexTable.add(identifier, idCount);
             CustomVector<String> v = new CustomVector<>();
             v.add(identifier);
             mainTable.add(v);
+            idCount++;
         }else{
             currId = indexTable.get(identifier);
         }
@@ -45,7 +45,16 @@ public class IdentifierSymbolTable {
 
     }
 
-    //TODO: implement tostring for table printing
+    @Override
+    public String toString() {
+        String str = "Identifier Symbol Table: \n";
+        for(int i = 0; i < this.mainTable.size(); i++){
+            str += i + " | " + mainTable.get(i).toString(0) + "\n";
+        }
+        return str;
+    }
+
+
     public boolean exists(String identifier){
         return indexTable.get(identifier) != null;
     }

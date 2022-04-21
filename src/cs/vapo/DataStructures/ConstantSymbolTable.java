@@ -32,12 +32,12 @@ public class ConstantSymbolTable {
     public int add(String constant){
         int currId;
         if(!exists(constant)){
-            idCount++;
             currId = idCount;
             indexTable.add(constant, idCount);
             CustomVector<Integer> v = new CustomVector<>();
             v.add(Integer.parseInt(constant));
             mainTable.add(v);
+            idCount++;
         }else{
             currId = indexTable.get(constant);
         }
@@ -48,7 +48,16 @@ public class ConstantSymbolTable {
 
     }
 
-    //TODO: implement tostring for table printing
+
+    @Override
+    public String toString() {
+        String str = "Constant Symbol Table: \n";
+        for(int i = 0; i < this.mainTable.size(); i++){
+            str += i + " | " + mainTable.get(i).toString(0) + "\n";
+        }
+        return str;
+    }
+
     public boolean exists(String constant){
         return indexTable.get(constant) != null;
     }

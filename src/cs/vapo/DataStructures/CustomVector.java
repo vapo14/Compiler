@@ -84,7 +84,24 @@ public class CustomVector<T> {
     public String toString() {
         String str = "";
         for(int i = 0; i < numItems; i++){
-            str += data[i] + ", ";
+            str += data[i] + "\n";
+        }
+        return str;
+    }
+
+    /**
+     * 1 for vertical, any other int for horizontal
+     * @param orientation
+     * @return
+     */
+    public String toString(int orientation){
+        String str = "";
+        if(orientation == 1){
+            return toString();
+        }else{
+            for(int i = 0; i < numItems; i++){
+                str += data[i] + ", ";
+            }
         }
         return str;
     }

@@ -25,8 +25,8 @@ public class TransitionTable {
     int[][] transition;
 
     public TransitionTable() {
-        acceptStates = new boolean[]{false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, false, false};
-        errorStates = new boolean[]{false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, true};
+        acceptStates = new boolean[]{false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, false, false, false};
+        errorStates = new boolean[]{false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, true};
         advanceStates = new boolean[][]{
                 {true,true,false,false,false,true,true,true,true,true,false,false,false,false,false,false,false,false,true,false},
                 {true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false},

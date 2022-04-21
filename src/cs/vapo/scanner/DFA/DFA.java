@@ -5,6 +5,7 @@
  * */
 package cs.vapo.scanner.DFA;
 
+import cs.vapo.CLI.CLI;
 import cs.vapo.DataStructures.ConstantSymbolTable;
 import cs.vapo.DataStructures.CustomHashMap;
 import cs.vapo.DataStructures.CustomVector;
@@ -26,6 +27,7 @@ public class DFA {
     boolean isComment;
     ConstantSymbolTable constantSymbolTable = Main.constantSymbolTable;
     IdentifierSymbolTable identifierSymbolTable = Main.identifierSymbolTable;
+    CLI cli = Main.cli;
     CustomHashMap<String, Integer> keywords;
     CustomVector<Token> tokenStream;
 
@@ -68,6 +70,12 @@ public class DFA {
             if (newState == 4 || newState == 5) {
                 isComment = true;
                 tokenBuffer = "";
+                // if we have reached the EOF and we are inside a comment, terminate execution
+                // and handle error
+                if(currentChar == '\uFFFF'){
+                    state = 36;
+                    break;
+                }
             }
             // as long as the character is not a delimiter for the next state
             // advance the input stream. If it is a delimiter, read the character but
@@ -83,7 +91,6 @@ public class DFA {
         // when reaching an accepting state, record the token
         // else handle the appropriate error state.
         if (transitionTable.acceptStates[state]) {
-            tokenBuffer = tokenBuffer.toLowerCase(Locale.ROOT);
             recordToken(state, tokenBuffer);
 
         } else {
@@ -109,16 +116,19 @@ public class DFA {
     private void handleError(int state){
         switch (state) {
             // invalid character error
-            case 32 -> System.out.println("Invalid character in " + inputStream.getLineCount() + ":" + inputStream.getColumnCount());
+            case 32 -> cli.sendMessage("Invalid character in " + inputStream.getLineCount() + ":" + inputStream.getColumnCount());
 
             // invalid identifier construction
-            case 33 -> System.out.println("Invalid Identifier: " + tokenBuffer + " in line: " + inputStream.getLineCount() + ":" + inputStream.getColumnCount());
+            case 33 -> cli.sendMessage("Invalid Identifier: " + tokenBuffer + " in line: " + inputStream.getLineCount() + ":" + inputStream.getColumnCount());
 
             // invalid constant construction
-            case 34 -> System.out.println("Invalid constant: " + tokenBuffer + " in line: " + inputStream.getLineCount() + ":" + inputStream.getColumnCount());
+            case 34 -> cli.sendMessage("Invalid constant: " + tokenBuffer + " in line: " + inputStream.getLineCount() + ":" + inputStream.getColumnCount());
 
             // invalid operator construction
-            case 35 -> System.out.println("Invalid operator: " + tokenBuffer + " in line: " + inputStream.getLineCount() + ":" + inputStream.getColumnCount());
+            case 35 -> cli.sendMessage("Invalid operator: " + tokenBuffer + " in line: " + inputStream.getLineCount() + ":" + inputStream.getColumnCount());
+
+            // comment not closed error
+            case 36 -> cli.sendMessage("Comment not closed in line: " + inputStream.getLineCount() + ":" + inputStream.getColumnCount() + ", reached EOF.");
             default -> {
             }
         }
@@ -137,14 +147,13 @@ public class DFA {
             case 10:
                 // if the token is a keyword, create a token with just an ID
                 // else create an identifier token and add it to the symbol table
-                if(keywords.get(tokenBuffer) != null){
+                if(keywords.get(tokenBuffer.toLowerCase(Locale.ROOT)) != null){
                     token = new Token(keywords.get(tokenBuffer));
-                    tokenStream.add(token);
                 }else{
                     int tableID = identifierSymbolTable.add(tokenBuffer);
                     token = new Token(28, tableID);
-                    tokenStream.add(token);
                 }
+                tokenStream.add(token);
                 break;
             // numeric constants
             case 11:

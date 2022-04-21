@@ -28,5 +28,7 @@ public class Main {
         }
         MainScannerProcess msp = new MainScannerProcess();
         msp.initRead(new File(cli.getFileName()));
+        cli.sendMessage(constantSymbolTable.toString());
+        cli.sendMessage(identifierSymbolTable.toString());
     }
 }
