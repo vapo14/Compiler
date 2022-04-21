@@ -17,10 +17,15 @@ public class Main {
 
     public static ConstantSymbolTable constantSymbolTable = new ConstantSymbolTable();
     public static IdentifierSymbolTable identifierSymbolTable = new IdentifierSymbolTable();
+    public static CLI cli;
 
     public static void main(String[] args) {
         // write your code here
-        CLI cli = new CLI(args);
+        try{
+            cli = new CLI(args);
+        }catch (IllegalArgumentException e){
+            return;
+        }
         MainScannerProcess msp = new MainScannerProcess();
         msp.initRead(new File(cli.getFileName()));
     }

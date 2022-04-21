@@ -5,13 +5,18 @@
  * */
 package cs.vapo.CLI;
 
+/**
+ * Simple CLI for input and output management.
+ */
 public class CLI {
 
-    private String [] args;
-    private String filename;
+    private final String filename;
 
-    public CLI(String[] args){
-        this.args = args;
+    public CLI(String[] args) throws IllegalArgumentException{
+        if(args.length == 0){
+            System.out.println("Usage: javac -jar compiler <PATH TO FILE>");
+            throw new IllegalArgumentException();
+        }
         this.filename = args[0];
     }
 

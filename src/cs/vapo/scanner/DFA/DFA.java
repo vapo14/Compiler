@@ -7,6 +7,7 @@ package cs.vapo.scanner.DFA;
 
 import cs.vapo.DataStructures.ConstantSymbolTable;
 import cs.vapo.DataStructures.CustomHashMap;
+import cs.vapo.DataStructures.CustomVector;
 import cs.vapo.Main;
 import cs.vapo.DataStructures.IdentifierSymbolTable;
 import cs.vapo.scanner.InputStream;
@@ -14,6 +15,9 @@ import cs.vapo.scanner.tokens.Token;
 
 import java.util.Locale;
 
+/**
+ *  Table-driven implementation of the DFA
+ */
 public class DFA {
 
     InputStream inputStream;
@@ -23,12 +27,14 @@ public class DFA {
     ConstantSymbolTable constantSymbolTable = Main.constantSymbolTable;
     IdentifierSymbolTable identifierSymbolTable = Main.identifierSymbolTable;
     CustomHashMap<String, Integer> keywords;
+    CustomVector<Token> tokenStream;
 
-    public DFA(InputStream inputStream) {
+    public DFA(InputStream inputStream, CustomVector<Token> tokenStream) {
         this.inputStream = inputStream;
         this.transitionTable = new TransitionTable();
         tokenBuffer = "";
         isComment = false;
+        this.tokenStream = tokenStream;
         keywords = new CustomHashMap<>();
         keywords.add("void", 2);
         keywords.add("else", 4);
@@ -47,17 +53,25 @@ public class DFA {
      * @return 0 if a token has been validly recognized, -1 if an error state is reached
      */
     public int readNextToken() {
+        // init buffer to empty string and state to 0
+        // read initial char and append to buffer
         tokenBuffer = "";
         int state = 0;
         isComment = false;
         char currentChar = inputStream.readChar();
         appendBuffer(currentChar);
+        // repeat until reaching an accept or error state
         while (!transitionTable.acceptStates[state] && !transitionTable.errorStates[state]) {
+            // get the new state with currentChar
             int newState = transitionTable.moveState(state, currentChar);
+            // if the current char is part of a comment, disregard from buffer
             if (newState == 4 || newState == 5) {
                 isComment = true;
                 tokenBuffer = "";
             }
+            // as long as the character is not a delimiter for the next state
+            // advance the input stream. If it is a delimiter, read the character but
+            // don't advance the input stream.
             if (transitionTable.advanceInput(state, currentChar) && !transitionTable.isDelimiter(newState, inputStream.peek())) {
                 currentChar = inputStream.readChar();
                 appendBuffer(currentChar);
@@ -66,6 +80,8 @@ public class DFA {
             }
             state = newState;
         }
+        // when reaching an accepting state, record the token
+        // else handle the appropriate error state.
         if (transitionTable.acceptStates[state]) {
             tokenBuffer = tokenBuffer.toLowerCase(Locale.ROOT);
             recordToken(state, tokenBuffer);
@@ -123,11 +139,11 @@ public class DFA {
                 // else create an identifier token and add it to the symbol table
                 if(keywords.get(tokenBuffer) != null){
                     token = new Token(keywords.get(tokenBuffer));
-                    System.out.println(token +  " State: " + state);
+                    tokenStream.add(token);
                 }else{
                     int tableID = identifierSymbolTable.add(tokenBuffer);
                     token = new Token(28, tableID);
-                    System.out.println(token +  " State: " + state);
+                    tokenStream.add(token);
                 }
                 break;
             // numeric constants
@@ -137,12 +153,12 @@ public class DFA {
                 int tableID = constantSymbolTable.add(tokenBuffer);
                 token = new Token(29, tableID);
                 constantSymbolTable.add(tokenBuffer);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // division operator
             case 12:
                 token = new Token(12);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // Comment
             case 13:
@@ -150,92 +166,92 @@ public class DFA {
             // Addition operator
             case 14:
                 token = new Token(9);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // Subtraction operator
             case 15:
                 token = new Token(10);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // Multiplication operator
             case 16:
                 token = new Token(11);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // Less than operator
             case 17:
                 token = new Token(13);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // Less than or equal to operator
             case 18:
                 token = new Token(15);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // Greater than operator
             case 19:
                 token = new Token(14);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // Greater than or equal to operator
             case 20:
                 token = new Token(16);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // Assignment operator
             case 21:
                 token = new Token(19);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // Equal to operator
             case 22:
                 token = new Token(17);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // Not equal to operator
             case 23:
                 token = new Token(18);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // ;
             case 24:
                 token = new Token(20);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // ,
             case 25:
                 token = new Token(21);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // {
             case 26:
                 token = new Token(26);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // }
             case 27:
                 token = new Token(27);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // [
             case 28:
                 token = new Token(24);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // ]
             case 29:
                 token = new Token(25);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // (
             case 30:
                 token = new Token(22);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             // )
             case 31:
                 token = new Token(23);
-                System.out.println(token +  " State: " + state);
+                tokenStream.add(token);
                 break;
             default:
                 break;

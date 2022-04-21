@@ -5,6 +5,11 @@
  * */
 package cs.vapo.DataStructures;
 
+/**
+ * Node for hashmap implementation
+ * @param <K> key
+ * @param <V> value
+ */
 public class MapNode <K, V>{
     K key;
     V value;

@@ -5,7 +5,10 @@
  * */
 package cs.vapo.DataStructures;
 
-
+/**
+ * Custom vector imlementation
+ * @param <T>
+ */
 public class CustomVector<T> {
     private int initialCapacity = 10;
     private int currentCapacity;
@@ -19,7 +22,12 @@ public class CustomVector<T> {
         data = (T[]) new Object[this.initialCapacity];
     }
 
+    /**
+     * Adds the given object to the vector
+     * @param object object to add
+     */
     public void add(T object){
+        // if vector is full, reserve 2*space
         if(numItems == currentCapacity){
             reserve(2*currentCapacity);
         }
@@ -31,21 +39,39 @@ public class CustomVector<T> {
         return numItems;
     }
 
+    /**
+     *
+     * @param index
+     * @return returns object at index
+     */
     public T get(int index){
         return data[index];
     }
 
+    /**
+     *
+     * Sets object at index
+     * @param index
+     * @param value
+     */
     public void set(int index, T value){
         data[index] = value;
     }
 
+    /**
+     * Reserves space in the vector by given capacity
+     * @param newCapacity
+     */
     void reserve(int newCapacity){
         if(newCapacity > currentCapacity){
+            // if newCapacity is already double, just update
+            // else double capacity
             if(newCapacity > 2 * currentCapacity){
                 currentCapacity = newCapacity;
             }else{
                 currentCapacity *= 2;
             }
+            // create new doubled array and copy items
             T[] newData = (T[]) new Object[currentCapacity];
             for(int i = 0; i < numItems; i++){
                 newData[i] = data[i];

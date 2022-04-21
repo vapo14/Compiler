@@ -7,6 +7,10 @@ package cs.vapo.scanner;
 
 import java.io.*;
 
+/**
+ * Input Stream handler. This class is in charge of the movement of
+ * the input stream.
+ */
 public class InputStream {
 
     File currentFile;
@@ -30,6 +34,10 @@ public class InputStream {
         this.currentChar = peek();
     }
 
+    /**
+     * Updates the currentChar by reading and advancing the input stream.
+     * @return the new character from the input stream
+     */
     public char readChar() {
         // FIXME: i dont like this exception handling
         char c = 'e';
@@ -47,14 +55,11 @@ public class InputStream {
         return c;
     }
 
-    public void returnChar (char c){
-        try{
-            pushbackReader.unread(c);
-        }catch (IOException e){
-            System.out.println("Error returning char: " + e);
-        }
-    }
-
+    /**
+     * Function for 'peeking' the input stream. Reads the character and pushes it back
+     * into the input stream.
+     * @return the 'peeked' character.
+     */
     public char peek(){
         char c = 'e';
         try{
@@ -67,6 +72,9 @@ public class InputStream {
         return c;
     }
 
+    /**
+     * Closes the current file.
+     */
     public void closeFile(){
         try{
             fileReader.close();

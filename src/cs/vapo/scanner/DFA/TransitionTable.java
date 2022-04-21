@@ -7,6 +7,10 @@ package cs.vapo.scanner.DFA;
 
 import cs.vapo.DataStructures.CustomHashMap;
 
+/**
+ * Contains the necessary information for the table-driven
+ * implementation of the DFA.
+ */
 public class TransitionTable {
 
     String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -69,6 +73,12 @@ public class TransitionTable {
         charMap.add(',', 17);
     }
 
+    /**
+     * The transition function.
+     * @param state given state
+     * @param c given character
+     * @return  the new state given by the movement from "state" with 'c'
+     */
     public int moveState(int state, char c) {
         if(isLetter(c))
             return transition[state][0];
@@ -81,6 +91,13 @@ public class TransitionTable {
         return transition[state][charMap.get(c)];
     }
 
+    /**
+     * Whether a given state allows for movement in the
+     * input stream given char 'c'.
+     * @param state state to evaluate
+     * @param c input char
+     * @return true if the state allows for movement in the input stream.
+     */
     public boolean advanceInput(int state, char c){
         if(isLetter(c))
             return advanceStates[state][0];
@@ -93,6 +110,11 @@ public class TransitionTable {
         return advanceStates[state][charMap.get(c)];
     }
 
+    /**
+     *
+     * @param c character to evaluate
+     * @return true if the character belongs to the 'letter' regex
+     */
     boolean isLetter(Character c){
         for(int i = 0; i < alphabet.length(); i++){
             if(alphabet.charAt(i) == c){
@@ -102,6 +124,11 @@ public class TransitionTable {
         return false;
     }
 
+    /**
+     *
+     * @param c character to evaluate
+     * @return true if the character belongs to the 'num' regex
+     */
     boolean isNum(Character c){
         for(int i = 0; i < nums.length(); i++){
             if(nums.charAt(i) == c){
@@ -111,6 +138,11 @@ public class TransitionTable {
         return false;
     }
 
+    /**
+     *
+     * @param c character to evaluate
+     * @return true if the character belongs to the 'ws' regex
+     */
     boolean isWhiteSpace(Character c){
         for (char whiteSpace : whiteSpaces) {
             if (whiteSpace == c) {
@@ -120,6 +152,11 @@ public class TransitionTable {
         return false;
     }
 
+    /**
+     * @param state current state
+     * @param c character to evaluate
+     * @return true if the character is a delimiter for the given state and character
+     */
     boolean isDelimiter(int state, Character c){
         if((state == 6 || state == 7 || state == 8 || state == 9) && c == '=') return false;
         if(isLetter(c))
