@@ -48,6 +48,7 @@ public class ConstantSymbolTable {
 
     }
 
+    //TODO: implement tostring for table printing
     public boolean exists(String constant){
         return indexTable.get(constant) != null;
     }

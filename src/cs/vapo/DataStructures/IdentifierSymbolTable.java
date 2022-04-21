@@ -45,6 +45,7 @@ public class IdentifierSymbolTable {
 
     }
 
+    //TODO: implement tostring for table printing
     public boolean exists(String identifier){
         return indexTable.get(identifier) != null;
     }
