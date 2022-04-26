@@ -1,11 +1,13 @@
 package cs.vapo.DataStructures;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CustomHashMapTest {
 
 
-    @org.junit.jupiter.api.Test
+    @Test
     void size() {
         CustomHashMap<String, Integer> hashMap = new CustomHashMap<>();
         hashMap.add("key1", 1);
@@ -14,14 +16,14 @@ class CustomHashMapTest {
         assertEquals(3, hashMap.size());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void add() {
         CustomHashMap<String, Integer> hashMap = new CustomHashMap<>();
         hashMap.add("key1", 1);
         assertEquals(1, hashMap.size());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void get() {
         CustomHashMap<String, Integer> hashMap = new CustomHashMap<>();
         hashMap.add("key1", 15);

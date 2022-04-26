@@ -153,7 +153,7 @@ public class TransitionTable {
     }
 
     /**
-     * @param state current state
+     * @param state state
      * @param c character to evaluate
      * @return true if the character is a delimiter for the given state and character
      */

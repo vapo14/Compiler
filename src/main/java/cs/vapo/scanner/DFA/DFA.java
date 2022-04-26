@@ -111,7 +111,7 @@ public class DFA {
      *  Sends an error message according to the current state
      * @param state current state
      */
-    private void handleError(int state){
+    void handleError(int state){
         switch (state) {
             // invalid character error
             case 32 -> cli.sendMessage("Invalid character in " + inputStream.getLineCount() + ":" + inputStream.getColumnCount());

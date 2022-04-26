@@ -24,7 +24,7 @@ public class IdentifierSymbolTable {
      * Adds a new identifier to the symbol table, if the
      * identifier already exists, it returns the index.
      * @param identifier identifier string
-     * @return
+     * @return index for the identifier added
      */
     public int add(String identifier){
         int currId;

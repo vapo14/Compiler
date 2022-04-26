@@ -5,6 +5,9 @@
  * */
 package cs.vapo.CLI;
 
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
+
 /**
  * Simple CLI for input and output management.
  */
@@ -14,16 +17,29 @@ public class CLI {
 
     public CLI(String[] args) throws IllegalArgumentException{
         if(args.length == 0){
-            System.out.println("Usage: javac -jar compiler <PATH TO FILE>");
+            System.out.println("Usage: java -jar compiler <PATH TO FILE>");
             throw new IllegalArgumentException();
+        }
+        try {
+            Paths.get(args[0]);
+        } catch (InvalidPathException | NullPointerException exception){
+            System.out.println("Invalid path to file.");
         }
         this.filename = args[0];
     }
 
+    /**
+     * Sends a message to the console.
+     * @param message message string to send
+     */
     public void sendMessage(String message){
         System.out.println(message);
     }
 
+    /**
+     *
+     * @return the current file that is being processed.
+     */
     public String getFileName(){
         return this.filename;
     }

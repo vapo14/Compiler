@@ -5,6 +5,9 @@
  * */
 package cs.vapo.scanner;
 
+import cs.vapo.CLI.CLI;
+import cs.vapo.Main;
+
 import java.io.*;
 
 /**
@@ -15,6 +18,7 @@ public class InputStream {
 
     File currentFile;
     FileReader fileReader;
+    CLI cli = Main.cli;
     PushbackReader pushbackReader;
     int currentChar;
     private int lineCount;
@@ -25,7 +29,7 @@ public class InputStream {
         this.currentFile = currentFile;
         try {
             fileReader = new FileReader(currentFile);
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | NullPointerException e) {
             System.out.println("File not found.");
         }
         this.lineCount = 1;
@@ -39,7 +43,6 @@ public class InputStream {
      * @return the new character from the input stream
      */
     public char readChar() {
-        // FIXME: i dont like this exception handling
         char c = 'e';
         try {
             currentChar = pushbackReader.read();
@@ -50,7 +53,7 @@ public class InputStream {
             }
             incrementColumn();
         } catch (IOException e) {
-
+            cli.sendMessage("IO Error occurred: " + e.getMessage());
         }
         return c;
     }
@@ -66,7 +69,7 @@ public class InputStream {
             c = (char) pushbackReader.read();
             pushbackReader.unread(c);
         }catch (IOException e){
-            System.out.println("Error while peeking input stream");
+            cli.sendMessage("Error while peeking input stream: " + e.getMessage());
         }
         currentChar = c;
         return c;
@@ -79,7 +82,7 @@ public class InputStream {
         try{
             fileReader.close();
         }catch (IOException e){
-            System.out.println("Error closing file.");
+            cli.sendMessage("Error closing file: " + e.getMessage());
         }
     }
 

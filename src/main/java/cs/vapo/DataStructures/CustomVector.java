@@ -6,20 +6,20 @@
 package cs.vapo.DataStructures;
 
 /**
- * Custom vector imlementation
+ * Custom vector implementation
  * @param <T>
  */
 public class CustomVector<T> {
-    private final int initialCapacity = 10;
     private int currentCapacity;
     private int numItems;
 
     private T[] data;
 
-
+    @SuppressWarnings("unchecked")
     public CustomVector(){
-        this.currentCapacity = this.initialCapacity;
-        data = (T[]) new Object[this.initialCapacity];
+        int initialCapacity = 10;
+        this.currentCapacity = initialCapacity;
+        data = (T[]) new Object[initialCapacity];
     }
 
     /**
