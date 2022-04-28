@@ -65,6 +65,25 @@ class DFATest {
     }
 
     @Test
+    void givenInvalidOperatorWhenRunDFAThenReturnError(){
+        // Given
+        File currentFile = new File("src/test/resources/invalidOperator.txt");
+        InputStream inputStream = new InputStream(currentFile);
+        CustomVector<Token> tokenStream = new CustomVector<>();
+        DFA dfa = new DFA(inputStream, tokenStream);
+        DFA dfaSpy = Mockito.spy(dfa);
+        doNothing().when(dfaSpy).handleError(Mockito.anyInt());
+
+        // When
+        while(inputStream.getCurrentChar() != '\uFFFF' && inputStream.getCurrentChar() != -1){
+            if(dfaSpy.readNextToken() < 0) break;
+        }
+
+        // Then
+        Mockito.verify(dfaSpy, Mockito.times(1)).handleError(35);
+    }
+
+    @Test
     void givenInvalidIdentifierWhenRunDFAThenReturnError(){
         // Given
         File currentFile = new File("src/test/resources/identifierError.txt");
