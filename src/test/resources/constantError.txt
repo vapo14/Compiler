@@ -1,2 +1,0 @@
-/* This is not how you write a constant in C--*/
-int x = 3289792ds;

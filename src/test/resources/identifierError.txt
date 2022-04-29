@@ -1,2 +1,0 @@
-/* This is not how you write an identifier in C--*/
-var1 = 0;

@@ -11,7 +11,13 @@ public class IdentifierSymbolTable {
      * Contains the index of a given identifier in the symbol table.
      */
     private final CustomHashMap<String, Integer> indexTable;
+    /**
+     * Contains the actual identifier in its corresponding index.
+     */
     private final CustomVector<CustomVector<String>> mainTable;
+    /**
+     * Keeps track of the current index for new identifiers
+     */
     private int idCount;
 
     public IdentifierSymbolTable(){

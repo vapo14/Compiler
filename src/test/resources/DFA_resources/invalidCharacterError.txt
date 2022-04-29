@@ -1,0 +1,6 @@
+/*this file contains an invalid character: ñ*/
+
+var = 1;
+if(ñ != 5){
+    return;
+}

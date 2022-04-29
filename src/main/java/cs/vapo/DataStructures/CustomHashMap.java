@@ -66,7 +66,6 @@ public class CustomHashMap<K, V> {
         while(head != null){
             if(head.key.equals(key)){
                 head.value = value;
-                size++;
                 return;
             }
             head = head.next;

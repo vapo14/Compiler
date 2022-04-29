@@ -50,7 +50,7 @@ public class CustomVector<T> {
 
     /**
      *
-     * Sets object at index
+     * Sets object at existing index
      * @param index index
      * @param value value
      */
