@@ -17,7 +17,7 @@ public class CLI {
 
     public CLI(String[] args) throws IllegalArgumentException{
         if(args.length == 0){
-            System.out.println("Usage: java -jar compiler <PATH TO FILE>");
+            System.out.println("Usage: java -jar Compiler.jar <PATH TO FILE>");
             throw new IllegalArgumentException();
         }
         try {
