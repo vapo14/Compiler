@@ -33,8 +33,8 @@ public class MainScannerProcess {
      * Scans the file until reaching an EOF.
      * @param file file to scan
      */
-    public void initRead(File file){
-        if(file == null) return;
+    public CustomVector<Token> initRead(File file){
+        if(file == null) return tokenStream;
         this.currentFile = file;
         inputStream = new InputStream(currentFile);
         dfa = new DFA(inputStream, tokenStream);
@@ -42,7 +42,7 @@ public class MainScannerProcess {
             if(dfa.readNextToken() < 0) break;
         }
         inputStream.closeFile();
-        cli.sendMessage(tokenStream.toString());
+        return tokenStream;
     }
 
 }

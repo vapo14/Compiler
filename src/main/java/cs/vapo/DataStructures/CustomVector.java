@@ -26,13 +26,14 @@ public class CustomVector<T> {
      * Adds the given object to the vector
      * @param object object to add
      */
-    public void add(T object){
+    public CustomVector<T> add(T object){
         // if vector is full, reserve 2*space
         if(numItems == currentCapacity){
             reserve(2*currentCapacity);
         }
         data[numItems] = object;
         numItems++;
+        return this;
     }
 
     public int size(){

@@ -8,8 +8,11 @@ package cs.vapo;
 
 import cs.vapo.CLI.CLI;
 import cs.vapo.DataStructures.ConstantSymbolTable;
+import cs.vapo.DataStructures.CustomVector;
 import cs.vapo.DataStructures.IdentifierSymbolTable;
+import cs.vapo.parser.MainParserProcess;
 import cs.vapo.scanner.MainScannerProcess;
+import cs.vapo.scanner.tokens.Token;
 
 import java.io.File;
 
@@ -27,8 +30,9 @@ public class Main {
             return;
         }
         MainScannerProcess msp = new MainScannerProcess();
-        msp.initRead(new File(cli.getFileName()));
-        cli.sendMessage(constantSymbolTable.toString());
-        cli.sendMessage(identifierSymbolTable.toString());
+        CustomVector<Token> tokenStream = msp.initRead(new File(cli.getFileName()));
+
+        MainParserProcess parser = new MainParserProcess();
+        parser.parse(tokenStream);
     }
 }
