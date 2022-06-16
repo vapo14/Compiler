@@ -5,6 +5,7 @@
  * */
 package cs.vapo.parser;
 
+import cs.vapo.DataStructures.CustomHashMap;
 import cs.vapo.DataStructures.CustomVector;
 import cs.vapo.scanner.tokens.Token;
 
@@ -24,22 +25,47 @@ public class MainParserProcess {
 
         while(!Objects.equals(stack.peek(), "$")){
             // TODO: fix this shit
-            if(isToken(stack.peek(), currentToken)){
-
+            if(stack.peek().equals(tokenIDToToken(currentToken))){
+                stack.pop();
+                tokenBufferPointer++;
+                currentToken = tokenStream.get(tokenBufferPointer);
             }
         }
 
     }
 
-    public boolean isToken(String topStack, Token token){
-        boolean isToken = false;
-        String[] tokens = {"int", "void", "ID", "NUM", "if","else","while","return","input","output","+","-","*","/","<","<=",">",">=","==","!=","=",";",",","(",")","[","]","{","}" };
-        for (String s : tokens) {
-            if (s.equals(topStack)) {
-                isToken = true;
-                break;
-            }
-        }
-        return isToken;
+    String tokenIDToToken(Token token) {
+        CustomVector<String> tokenIDTable = new CustomVector<>();
+        tokenIDTable.add("return");
+        tokenIDTable.add("void");
+        tokenIDTable.add("while");
+        tokenIDTable.add("else");
+        tokenIDTable.add("if");
+        tokenIDTable.add("int");
+        tokenIDTable.add("input");
+        tokenIDTable.add("output");
+        tokenIDTable.add("+");
+        tokenIDTable.add("-");
+        tokenIDTable.add("*");
+        tokenIDTable.add("/");
+        tokenIDTable.add("void");
+        tokenIDTable.add("<");
+        tokenIDTable.add(">");
+        tokenIDTable.add("<=");
+        tokenIDTable.add(">=");
+        tokenIDTable.add("==");
+        tokenIDTable.add("!=");
+        tokenIDTable.add("=");
+        tokenIDTable.add(";");
+        tokenIDTable.add(",");
+        tokenIDTable.add("(");
+        tokenIDTable.add(")");
+        tokenIDTable.add("[");
+        tokenIDTable.add("]");
+        tokenIDTable.add("{");
+        tokenIDTable.add("}");
+        tokenIDTable.add("ID");
+        tokenIDTable.add("NUM");
+        return tokenIDTable.get(token.getId() - 1);
     }
 }
