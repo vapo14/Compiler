@@ -8,13 +8,24 @@ package cs.vapo.parser;
 import cs.vapo.DataStructures.CustomHashMap;
 import cs.vapo.DataStructures.CustomStack;
 import cs.vapo.DataStructures.CustomVector;
+import cs.vapo.Main;
 import cs.vapo.scanner.tokens.Token;
 
 import java.util.Objects;
 
 public class MainParserProcess {
-    public void parse(CustomVector<Token> tokenStream){
 
+    CustomVector<Token> tokenStream;
+
+    int tokenBufferPointer;
+
+    public MainParserProcess(CustomVector<Token> tokenStream){
+        this.tokenStream = tokenStream;
+        tokenBufferPointer = 0;
+    }
+
+    public void parse(){
+        // add $ to token stream
         tokenStream.add(new Token(30, -1, 0, 0));
         ParsingTable parsingTable = new ParsingTable();
 
@@ -22,11 +33,11 @@ public class MainParserProcess {
         stack.push("$");
         stack.push("program");
 
-        int tokenBufferPointer = 0;
         Token currentToken = tokenStream.get(tokenBufferPointer);
 
         while(!Objects.equals(stack.peek(), "$")){
             if(stack.peek().equals(tokenIDToToken(currentToken))){
+                handleToken(currentToken);
                 stack.pop();
                 tokenBufferPointer++;
                 currentToken = tokenStream.get(tokenBufferPointer);
@@ -63,6 +74,21 @@ public class MainParserProcess {
             error(tokenStream.get(tokenBufferPointer - 1));
         }
 
+    }
+
+    /**
+     * Handle recognized token
+     * @param currentToken
+     */
+    public void handleToken(Token currentToken) {
+        switch (currentToken.getId()){
+            case 28:
+                // current token is variable ID
+                if(tokenStream.get(tokenBufferPointer + 1).getId() == 20){
+                    //TODO: implement identifier symbol table update
+                }
+                break;
+        }
     }
 
     /**
