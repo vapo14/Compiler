@@ -8,15 +8,21 @@ package cs.vapo.scanner.tokens;
 public class Token {
     int id;
     int pointer;
+    int line;
+    int column;
 
-    public Token(int id){
+    public Token(int id, int line, int column){
         this.id = id;
         this.pointer = -1;
+        this.line = line;
+        this.column = column;
     }
 
-    public Token(int id, int pointer){
+    public Token(int id, int pointer, int line, int column){
         this.id = id;
         this.pointer = pointer;
+        this.line = line;
+        this.column = column;
     }
 
 
@@ -34,6 +40,14 @@ public class Token {
 
     public void setPointer(int pointer) {
         this.pointer = pointer;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public int getLine() {
+        return line;
     }
 
     @Override

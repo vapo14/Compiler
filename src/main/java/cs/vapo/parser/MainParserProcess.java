@@ -6,19 +6,19 @@
 package cs.vapo.parser;
 
 import cs.vapo.DataStructures.CustomHashMap;
+import cs.vapo.DataStructures.CustomStack;
 import cs.vapo.DataStructures.CustomVector;
 import cs.vapo.scanner.tokens.Token;
 
 import java.util.Objects;
-import java.util.Stack;
 
 public class MainParserProcess {
     public void parse(CustomVector<Token> tokenStream){
 
-        tokenStream.add(new Token(30, -1));
+        tokenStream.add(new Token(30, -1, 0, 0));
         ParsingTable parsingTable = new ParsingTable();
 
-        Stack<String> stack = new Stack<>();
+        CustomStack<String> stack = new CustomStack<>();
         stack.push("$");
         stack.push("program");
 
@@ -32,16 +32,15 @@ public class MainParserProcess {
                 currentToken = tokenStream.get(tokenBufferPointer);
             }
             else if(parsingTable.terminals.get(stack.peek()) != null){
-                error();
+                error(tokenStream.get(tokenBufferPointer - 1));
                 return;
             }
 
             else if(parsingTable.move(stack.peek(), tokenIDToToken(currentToken)) == 0){
-                // FIXME: fix error on params_list first and follow and first+
-                error();
+                error(tokenStream.get(tokenBufferPointer - 1));
                 return;
             }
-            else if(parsingTable.move(stack.peek(), tokenIDToToken(currentToken)) != 0){
+            else if(parsingTable.move(stack.peek(), tokenIDToToken(currentToken)) != 0) {
 
                 // get index from parsing table
                 int idx = parsingTable.move(stack.peek(), tokenIDToToken(currentToken));
@@ -61,7 +60,7 @@ public class MainParserProcess {
         if(stack.peek().equals("$")){
             System.out.println("ACCEPT");
         }else{
-            error();
+            error(tokenStream.get(tokenBufferPointer - 1));
         }
 
     }
@@ -69,8 +68,8 @@ public class MainParserProcess {
     /**
      * temporary generic error method
      */
-    void error(){
-        System.out.println("ERROR!");
+    void error(Token currentToken){
+        System.out.println("Error in line " + currentToken.getLine());
     }
 
     /**

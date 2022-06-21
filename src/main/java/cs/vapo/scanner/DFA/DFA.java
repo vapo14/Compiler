@@ -148,10 +148,10 @@ public class DFA {
                 // if the token is a keyword, create a token with just an ID
                 // else create an identifier token and add it to the symbol table
                 if(keywords.get(tokenBuffer.toLowerCase(Locale.ROOT)) != null){
-                    token = new Token(keywords.get(tokenBuffer));
+                    token = new Token(keywords.get(tokenBuffer), inputStream.getLineCount(), inputStream.getColumnCount());
                 }else{
                     int tableID = identifierSymbolTable.add(tokenBuffer);
-                    token = new Token(28, tableID);
+                    token = new Token(28, tableID, inputStream.getLineCount(), inputStream.getColumnCount());
                 }
                 tokenStream.add(token);
                 break;
@@ -160,13 +160,13 @@ public class DFA {
                 // the current constant is converted in the add function of the
                 // constant symbol table.
                 int tableID = constantSymbolTable.add(tokenBuffer);
-                token = new Token(29, tableID);
+                token = new Token(29, tableID, inputStream.getLineCount(), inputStream.getColumnCount());
                 constantSymbolTable.add(tokenBuffer);
                 tokenStream.add(token);
                 break;
             // division operator
             case 12:
-                token = new Token(12);
+                token = new Token(12, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // Comment
@@ -174,92 +174,92 @@ public class DFA {
                 break;
             // Addition operator
             case 14:
-                token = new Token(9);
+                token = new Token(9, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // Subtraction operator
             case 15:
-                token = new Token(10);
+                token = new Token(10, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // Multiplication operator
             case 16:
-                token = new Token(11);
+                token = new Token(11, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // Less than operator
             case 17:
-                token = new Token(13);
+                token = new Token(13, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // Less than or equal to operator
             case 18:
-                token = new Token(15);
+                token = new Token(15, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // Greater than operator
             case 19:
-                token = new Token(14);
+                token = new Token(14, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // Greater than or equal to operator
             case 20:
-                token = new Token(16);
+                token = new Token(16, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // Assignment operator
             case 21:
-                token = new Token(19);
+                token = new Token(19, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // Equal to operator
             case 22:
-                token = new Token(17);
+                token = new Token(17, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // Not equal to operator
             case 23:
-                token = new Token(18);
+                token = new Token(18, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // ;
             case 24:
-                token = new Token(20);
+                token = new Token(20, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // ,
             case 25:
-                token = new Token(21);
+                token = new Token(21, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // {
             case 26:
-                token = new Token(26);
+                token = new Token(26, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // }
             case 27:
-                token = new Token(27);
+                token = new Token(27, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // [
             case 28:
-                token = new Token(24);
+                token = new Token(24, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // ]
             case 29:
-                token = new Token(25);
+                token = new Token(25, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // (
             case 30:
-                token = new Token(22);
+                token = new Token(22, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             // )
             case 31:
-                token = new Token(23);
+                token = new Token(23, inputStream.getLineCount(), inputStream.getColumnCount());
                 tokenStream.add(token);
                 break;
             default:

@@ -20,24 +20,25 @@ public class ParsingTable {
             {15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 17, 0, 0, 0, 0, 0},
             {18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 19, 0, 0, 0, 0},
+            {20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 20, 19, 0, 0, 0, 0},
             {21, 0, 22, 0, 22, 0, 22, 22, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 22, 0},
             {0, 0, 23, 0, 23, 0, 23, 23, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 24, 0},
             {0, 0, 25, 0, 27, 0, 28, 29, 30, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 34, 0, 33, 0, 0, 0, 0},
             {0, 0, 36, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 35, 0, 36, 0, 0, 0, 0, 0, 0},
-            {0, 0, 38, 0, 38, 37, 38, 38, 38, 38, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 38, 0, 0},
+            {0, 0, 38, 0, 38, 37, 38, 38, 38, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 38, 38, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 0, 40, 0, 0, 0, 0},
             {0, 0, 42, 43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 44, 44, 44, 44, 44, 44, 0, 45, 0, 0, 45, 0, 0, 0, 0, 0},
             {0, 0, 47, 48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 49, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 51, 0, 0, 51, 0, 51, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 54, 54, 52, 53, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 49, 50, 0, 0, 51, 51, 51, 51, 51, 51, 0, 51, 51, 0, 51, 0, 51, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 54, 54, 52, 53, 54, 54, 54, 54, 54, 54, 0, 54, 54, 0, 54, 0, 54, 0, 0, 0},
             {0, 0, 56, 57, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 55, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 58, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 59, 61, 62, 63, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 65, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65, 66, 0, 0, 0, 0, 0},
-            {0, 0, 67, 67, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 68, 67, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 0, 60, 60, 59, 60, 58, 60, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62, 61, 63, 64, 65, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 67, 67, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 67, 68, 0, 0, 0, 0, 0},
+            {0, 0, 69, 69, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 69, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 70, 0, 71, 0, 0, 0, 0, 0}
     };
 
     public CustomHashMap<Integer, CustomVector<String>> productionList = new CustomHashMap<>();
@@ -144,6 +145,7 @@ public class ParsingTable {
         nonTerminals.add("relop", 25);
         nonTerminals.add("args", 26);
         nonTerminals.add("args_list", 27);
+        nonTerminals.add("args_list'", 28);
     }
 
     void initProductionList() {
@@ -178,7 +180,7 @@ public class ParsingTable {
         productionList.add(29, new CustomVector<String>().add("return").add("stmt''"));
         productionList.add(30, new CustomVector<String>().add("input").add("ID").add("input_stmt"));
         productionList.add(31, new CustomVector<String>().add("output").add("expr").add(";"));
-        productionList.add(32, new CustomVector<String>().add("").add("=").add("expr").add(";"));
+        productionList.add(32, new CustomVector<String>().add("=").add("expr").add(";"));
         productionList.add(33, new CustomVector<String>().add("[").add("a_expr").add("]").add("=").add("expr").add(";"));
         productionList.add(34, new CustomVector<String>().add("(").add("args").add(")").add(";"));
         productionList.add(35, new CustomVector<String>().add(";"));
@@ -205,15 +207,18 @@ public class ParsingTable {
         productionList.add(56, new CustomVector<String>().add("ID").add("factor'"));
         productionList.add(57, new CustomVector<String>().add("NUM"));
         productionList.add(58, new CustomVector<String>().add("[").add("a_expr").add("]"));
-        productionList.add(59, new CustomVector<String>().add("<="));
-        productionList.add(60, new CustomVector<String>().add("<"));
-        productionList.add(61, new CustomVector<String>().add(">"));
-        productionList.add(62, new CustomVector<String>().add(">="));
-        productionList.add(63, new CustomVector<String>().add("=="));
-        productionList.add(64, new CustomVector<String>().add("!="));
-        productionList.add(65, new CustomVector<String>().add("args_list"));
-        productionList.add(66, new CustomVector<String>().add(""));
-        productionList.add(67, new CustomVector<String>().add("a_expr"));
-        productionList.add(68, new CustomVector<String>().add(",").add("a_expr").add("args_list"));
+        productionList.add(59, new CustomVector<String>().add("(").add("args").add(")"));
+        productionList.add(60, new CustomVector<String>().add(""));
+        productionList.add(61, new CustomVector<String>().add("<="));
+        productionList.add(62, new CustomVector<String>().add("<"));
+        productionList.add(63, new CustomVector<String>().add(">"));
+        productionList.add(64, new CustomVector<String>().add(">="));
+        productionList.add(65, new CustomVector<String>().add("=="));
+        productionList.add(66, new CustomVector<String>().add("!="));
+        productionList.add(67, new CustomVector<String>().add("args_list"));
+        productionList.add(68, new CustomVector<String>().add(""));
+        productionList.add(69, new CustomVector<String>().add("a_expr").add("args_list'"));
+        productionList.add(70, new CustomVector<String>().add(",").add("a_expr").add("args_list'"));
+        productionList.add(71, new CustomVector<String>().add(""));
     }
 }
