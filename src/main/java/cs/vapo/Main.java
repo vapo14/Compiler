@@ -34,6 +34,5 @@ public class Main {
 
         MainParserProcess parser = new MainParserProcess(tokenStream);
         parser.parse();
-        cli.sendMessage(identifierSymbolTable.toString());
     }
 }

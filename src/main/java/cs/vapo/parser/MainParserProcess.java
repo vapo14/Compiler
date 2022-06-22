@@ -6,6 +6,7 @@
 package cs.vapo.parser;
 
 import cs.vapo.CLI.CLI;
+import cs.vapo.DataStructures.CustomHashMap;
 import cs.vapo.DataStructures.CustomStack;
 import cs.vapo.DataStructures.CustomVector;
 import cs.vapo.Main;
@@ -16,6 +17,7 @@ import java.util.Objects;
 public class MainParserProcess {
 
     CustomVector<Token> tokenStream;
+    CustomHashMap<String, String> errorMap;
 
     int tokenBufferPointer;
     boolean isLocal;
@@ -26,6 +28,8 @@ public class MainParserProcess {
         this.tokenStream = tokenStream;
         tokenBufferPointer = 0;
         isLocal = false;
+        errorMap = new CustomHashMap<>();
+        initErrorMap();
     }
 
     public void parse(){
@@ -48,12 +52,12 @@ public class MainParserProcess {
                 currentToken = tokenStream.get(tokenBufferPointer);
             }
             else if(parsingTable.terminals.get(stack.peek()) != null){
-                terminalError(tokenStream.get(tokenBufferPointer - 1), stack.peek());
+                terminalError(stack.peek());
                 return;
             }
 
             else if(parsingTable.move(stack.peek(), tokenIDToToken(currentToken)) == 0){
-                error(tokenStream.get(tokenBufferPointer - 1), stack.peek());
+                nonTerminalError(stack.peek());
                 return;
             }
             else if(parsingTable.move(stack.peek(), tokenIDToToken(currentToken)) != 0) {
@@ -79,7 +83,7 @@ public class MainParserProcess {
             }
             System.out.println("ACCEPT");
         } else {
-            error(tokenStream.get(tokenBufferPointer - 1), stack.peek());
+            nonTerminalError(stack.peek());
         }
 
     }
@@ -137,18 +141,22 @@ public class MainParserProcess {
     }
 
     /**
-     * temporary generic error method
+     * Non-terminal on top of stack error
+     * @param currentGrammarElement current element on top of stack
      */
-    void error(Token currentToken, String currentGrammarElement){
+    void nonTerminalError(String currentGrammarElement){
+        Token currentToken = tokenStream.size() == 1 ? tokenStream.get(tokenBufferPointer) : tokenStream.get(tokenBufferPointer - 1);
         cli.sendMessage("Error in line " + currentToken.getLine());
+        cli.sendMessage("Top stack: " + currentGrammarElement);
+        cli.sendMessage(errorMap.get(currentGrammarElement));
     }
 
     /**
      * Handles terminal on top of stack error.
-     * @param currentToken
-     * @param currentGrammarElement
+     * @param currentGrammarElement current element on top of stack
      */
-    void terminalError(Token currentToken, String currentGrammarElement){
+    void terminalError(String currentGrammarElement){
+        Token currentToken = tokenStream.size() == 1 ? tokenStream.get(tokenBufferPointer) : tokenStream.get(tokenBufferPointer - 1);
         cli.sendMessage("Error in line " + currentToken.getLine() + ", Expected: " + currentGrammarElement + " Got: " + tokenIDToToken(currentToken));
     }
 
@@ -190,5 +198,37 @@ public class MainParserProcess {
         tokenIDTable.add("NUM");
         tokenIDTable.add("$");
         return tokenIDTable.get(token.getId() - 1);
+    }
+
+    void initErrorMap(){
+        errorMap.add("program", "Missing declaration, expected int or void.");
+        errorMap.add("program'", "Missing declaration, expected int or void.");
+        errorMap.add("declarationList'", "Missing declaration, expected int or void.");
+        errorMap.add("declaration'", "Invalid identifier declaration.");
+        errorMap.add("var_dec", "Invalid variable declaration, expected: int");
+        errorMap.add("var_dec'", "Invalid variable declaration, expected ; or [size]");
+        errorMap.add("params", "Invalid parameter declaration");
+        errorMap.add("params_list", "Invalid parameter list, expected int type.");
+        errorMap.add("params_list'", "Invalid parameter list, parameters must be seperated by a comma.");
+        errorMap.add("param", "Invalid param declaration, expected int type.");
+        errorMap.add("param'", "Invalid param declaration, must be int variable or array.");
+        errorMap.add("local_dec'", "Invalid local declaration. Expected int type.");
+        errorMap.add("stmt_list'", "Invalid statement inside method.");
+        errorMap.add("stmt", "Invalid statement inside method.");
+        errorMap.add("stmt'", "Invalid statement, expected expression.");
+        errorMap.add("stmt''", "Invalid statement inside method.");
+        errorMap.add("selection_stmt'", "Invalid selection statement block.");
+        errorMap.add("input_stmt", "Invalid input statement, expected variable.");
+        errorMap.add("expr", "Invalid expression, expected numeric constant or identifier.");
+        errorMap.add("expr'", "Invalid expression, expected boolean operator.");
+        errorMap.add("a_expr", "Invalid expression, expected numeric constant or identifier.");
+        errorMap.add("a_expr'", "Invalid arithmetic expression, expected arithmetic operator.");
+        errorMap.add("term'", "Invalid arithmetic expression, expected arithmetic operator.");
+        errorMap.add("factor", "Invalid expression, expected numeric constant or identifier.");
+        errorMap.add("factor'", "Invalid arithmetic expression, expected arithmetic operator.");
+        errorMap.add("relop", "Invalid boolean expression, expected boolean operator.");
+        errorMap.add("args", "Invalid arguments, expected numeric constant or identifier.");
+        errorMap.add("args_list", "Invalid arguments, expected numeric constant or identifier.");
+        errorMap.add("args_list'", "Invalid argument list, expected ')'");
     }
 }
