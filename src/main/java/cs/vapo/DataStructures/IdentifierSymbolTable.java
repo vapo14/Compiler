@@ -47,8 +47,39 @@ public class IdentifierSymbolTable {
         return currId;
     }
 
-    public void update(String identifier){
+    public String getID(int idx) {
+        return mainTable.get(idx).get(0);
+    }
 
+    public int getAttributeCount(int idx) {
+        return mainTable.get(idx).size();
+    }
+
+    /**
+     * Appends a string attribute to an identifier at the given index.
+     * @param idx ID index
+     * @param value value to update
+     */
+    public void update(int idx, String value){
+        mainTable.get(idx).add(value);
+    }
+
+    /**
+     * determines if the last method identifier is
+     * a main method
+     * @return isMain
+     */
+    public boolean lastMethodIsMain(){
+        boolean isMain = false;
+        // from last ID in table, check if method
+        for(int i = mainTable.size() - 1; i >= 0; i--){
+            // when is method, then check if main
+            if(mainTable.get(i).size() > 1 && mainTable.get(i).get(1).equals("method")){
+                isMain = mainTable.get(i).get(0).equals("main");
+                break;
+            }
+        }
+        return isMain;
     }
 
     @Override
