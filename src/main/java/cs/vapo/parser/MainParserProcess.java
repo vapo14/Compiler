@@ -6,7 +6,6 @@
 package cs.vapo.parser;
 
 import cs.vapo.CLI.CLI;
-import cs.vapo.DataStructures.CustomHashMap;
 import cs.vapo.DataStructures.CustomStack;
 import cs.vapo.DataStructures.CustomVector;
 import cs.vapo.Main;
@@ -17,7 +16,7 @@ import java.util.Objects;
 public class MainParserProcess {
 
     CustomVector<Token> tokenStream;
-    CustomHashMap<String, String> errorMap;
+    ParsingTable parsingTable;
 
     int tokenBufferPointer;
     boolean isLocal;
@@ -28,14 +27,21 @@ public class MainParserProcess {
         this.tokenStream = tokenStream;
         tokenBufferPointer = 0;
         isLocal = false;
-        errorMap = new CustomHashMap<>();
-        initErrorMap();
+        parsingTable = new ParsingTable();
     }
 
-    public void parse(){
+    /**
+     * Method for initiating the parsing process.
+     */
+    public boolean parse(){
+        // if there is an empty file, throw error
+        if(tokenStream.size() == 0) {
+            noDeclarationError();
+            return false;
+        }
         // add $ to token stream
         tokenStream.add(new Token(30, -1, 0, 0));
-        ParsingTable parsingTable = new ParsingTable();
+
 
         CustomStack<String> stack = new CustomStack<>();
         stack.push("$");
@@ -53,12 +59,12 @@ public class MainParserProcess {
             }
             else if(parsingTable.terminals.get(stack.peek()) != null){
                 terminalError(stack.peek());
-                return;
+                return false;
             }
 
             else if(parsingTable.move(stack.peek(), tokenIDToToken(currentToken)) == 0){
                 nonTerminalError(stack.peek());
-                return;
+                return false;
             }
             else if(parsingTable.move(stack.peek(), tokenIDToToken(currentToken)) != 0) {
                 // get index from parsing table
@@ -78,14 +84,14 @@ public class MainParserProcess {
         }
         if(stack.peek().equals("$")) {
             if(!Main.identifierSymbolTable.lastMethodIsMain()){
-                cli.sendMessage("Error, last method is not of type main()");
-                return;
+                noMainMethodError();
+                return false;
             }
-            System.out.println("ACCEPT");
+            return true;
         } else {
             nonTerminalError(stack.peek());
+            return false;
         }
-
     }
 
     /**
@@ -99,6 +105,20 @@ public class MainParserProcess {
         if(currentToken.getId() == 27){
             isLocal = false;
         }
+    }
+
+    /**
+     * Error helper function
+     */
+    public void noDeclarationError(){
+        cli.sendMessage("Error: Program must have at least one declaration.");
+    }
+
+    /**
+     * Error helper function
+     */
+    public void noMainMethodError(){
+        cli.sendMessage("Error, last method is not of type void main(void)");
     }
 
     /**
@@ -141,21 +161,10 @@ public class MainParserProcess {
     }
 
     /**
-     * Non-terminal on top of stack error
-     * @param currentGrammarElement current element on top of stack
-     */
-    void nonTerminalError(String currentGrammarElement){
-        Token currentToken = tokenStream.size() == 1 ? tokenStream.get(tokenBufferPointer) : tokenStream.get(tokenBufferPointer - 1);
-        cli.sendMessage("Error in line " + currentToken.getLine());
-        cli.sendMessage("Top stack: " + currentGrammarElement);
-        cli.sendMessage(errorMap.get(currentGrammarElement));
-    }
-
-    /**
      * Handles terminal on top of stack error.
      * @param currentGrammarElement current element on top of stack
      */
-    void terminalError(String currentGrammarElement){
+    public void terminalError(String currentGrammarElement){
         Token currentToken = tokenStream.size() == 1 ? tokenStream.get(tokenBufferPointer) : tokenStream.get(tokenBufferPointer - 1);
         cli.sendMessage("Error in line " + currentToken.getLine() + ", Expected: " + currentGrammarElement + " Got: " + tokenIDToToken(currentToken));
     }
@@ -200,35 +209,137 @@ public class MainParserProcess {
         return tokenIDTable.get(token.getId() - 1);
     }
 
-    void initErrorMap(){
-        errorMap.add("program", "Missing declaration, expected int or void.");
-        errorMap.add("program'", "Missing declaration, expected int or void.");
-        errorMap.add("declarationList'", "Missing declaration, expected int or void.");
-        errorMap.add("declaration'", "Invalid identifier declaration.");
-        errorMap.add("var_dec", "Invalid variable declaration, expected: int");
-        errorMap.add("var_dec'", "Invalid variable declaration, expected ; or [size]");
-        errorMap.add("params", "Invalid parameter declaration");
-        errorMap.add("params_list", "Invalid parameter list, expected int type.");
-        errorMap.add("params_list'", "Invalid parameter list, parameters must be seperated by a comma.");
-        errorMap.add("param", "Invalid param declaration, expected int type.");
-        errorMap.add("param'", "Invalid param declaration, must be int variable or array.");
-        errorMap.add("local_dec'", "Invalid local declaration. Expected int type.");
-        errorMap.add("stmt_list'", "Invalid statement inside method.");
-        errorMap.add("stmt", "Invalid statement inside method.");
-        errorMap.add("stmt'", "Invalid statement, expected expression.");
-        errorMap.add("stmt''", "Invalid statement inside method.");
-        errorMap.add("selection_stmt'", "Invalid selection statement block.");
-        errorMap.add("input_stmt", "Invalid input statement, expected variable.");
-        errorMap.add("expr", "Invalid expression, expected numeric constant or identifier.");
-        errorMap.add("expr'", "Invalid expression, expected boolean operator.");
-        errorMap.add("a_expr", "Invalid expression, expected numeric constant or identifier.");
-        errorMap.add("a_expr'", "Invalid arithmetic expression, expected arithmetic operator.");
-        errorMap.add("term'", "Invalid arithmetic expression, expected arithmetic operator.");
-        errorMap.add("factor", "Invalid expression, expected numeric constant or identifier.");
-        errorMap.add("factor'", "Invalid arithmetic expression, expected arithmetic operator.");
-        errorMap.add("relop", "Invalid boolean expression, expected boolean operator.");
-        errorMap.add("args", "Invalid arguments, expected numeric constant or identifier.");
-        errorMap.add("args_list", "Invalid arguments, expected numeric constant or identifier.");
-        errorMap.add("args_list'", "Invalid argument list, expected ')'");
+
+    /**
+     * Non-terminal on top of stack error
+     * @param currentGrammarElement current element on top of stack
+     */
+    public void nonTerminalError(String currentGrammarElement){
+        Token currentToken;
+        try{
+            currentToken = tokenStream.size() == 1 ? tokenStream.get(tokenBufferPointer) : tokenStream.get(tokenBufferPointer - 1);
+        }catch (ArrayIndexOutOfBoundsException e){
+            cli.sendMessage("Program must begin with a declaration");
+            return;
+        }
+        cli.sendMessage("Error in line " + currentToken.getLine());
+        int terminalIdx = parsingTable.getTerminalIndex(tokenIDToToken(currentToken));
+        switch (currentGrammarElement){
+            case "program":
+            case "program'":
+                cli.sendMessage("Program must begin with a declaration.");
+                break;
+            case "declarationList'":
+                cli.sendMessage("Declarations must begin with int or void.");
+                break;
+            case "declaration'":
+                cli.sendMessage("Invalid declaration, expected ';'");
+                break;
+            case "var_dec":
+                cli.sendMessage("Invalid variable declaration, expected 'int' type.");
+                break;
+            case "var_dec'":
+                cli.sendMessage("Invalid variable declaration, expected ';' or [size]");
+                break;
+            case "params":
+                cli.sendMessage("Invalid parameter, must be int type or void.");
+                break;
+            case "params_list":
+                cli.sendMessage("Invalid parameter list, must begin with int type.");
+                break;
+            case "params_list'":
+                cli.sendMessage("Invalid parameter list, parameters must be seperated by ','");
+                break;
+            case "param":
+                if(getTerminalType(terminalIdx).equals("TYPE")) cli.sendMessage("Parameters can only have type int.");
+                break;
+            case "param'":
+                cli.sendMessage("Invalid parameter, must begin with int type.");
+                break;
+            case "local_dec'":
+                if(getTerminalType(terminalIdx).equals("TYPE")) cli.sendMessage("Local declarations cannot be void.");
+                if(getTerminalType(terminalIdx).equals("STATEMENT")) cli.sendMessage("Else statement can only follow a previous if statement.");
+                if(getTerminalType(terminalIdx).equals("OPERATOR")) cli.sendMessage("Operators must follow an expression.");
+                else cli.sendMessage("Invalid local declaration, unexpected token '" + tokenIDToToken(currentToken)+"'");
+                break;
+            case "stmt_list'":
+            case "stmt":
+                if(getTerminalType(terminalIdx).equals("TYPE")) cli.sendMessage("Cannot have declarations within statements.");
+                if(getTerminalType(terminalIdx).equals("STATEMENT")) cli.sendMessage("Else statement can only follow a previous if statement.");
+                if(getTerminalType(terminalIdx).equals("OPERATOR")) cli.sendMessage("Operators must follow an expression.");
+                else cli.sendMessage("Invalid statement, unexpected token '" + tokenIDToToken(currentToken) +"'");
+                break;
+            case "stmt'":
+                if(getTerminalType(terminalIdx).equals("TYPE")) cli.sendMessage("Cannot have declarations within statements.");
+                if(getTerminalType(terminalIdx).equals("STATEMENT")) cli.sendMessage("Cannot have statement within statement.");
+                if(getTerminalType(terminalIdx).equals("OPERATOR")) cli.sendMessage("Operators must follow an expression.");
+                if(getTerminalType(terminalIdx).equals(";")) cli.sendMessage("Invalid termination of statement.");
+                else cli.sendMessage("Invalid statement, unexpected token '" + tokenIDToToken(currentToken)+"'");
+                break;
+            case "stmt''":
+                if(getTerminalType(terminalIdx).equals("TYPE")) cli.sendMessage("Cannot have declarations within statements.");
+                if(getTerminalType(terminalIdx).equals("STATEMENT")) cli.sendMessage("Cannot have statement within statement.");
+                if(getTerminalType(terminalIdx).equals("OPERATOR")) cli.sendMessage("Operators must follow an expression.");
+                else cli.sendMessage("Invalid statement, unexpected token '" + tokenIDToToken(currentToken) + "' , statement must end with a ';'.");
+                break;
+            case "selection_stmt'":
+                if(getTerminalType(terminalIdx).equals("TYPE")) cli.sendMessage("Cannot have declarations within statements.");
+                if(getTerminalType(terminalIdx).equals("OPERATOR")) cli.sendMessage("Operators must follow an expression.");
+                if(getTerminalType(terminalIdx).equals(";")) cli.sendMessage("Invalid termination of selection statement.");
+                else cli.sendMessage("Invalid selection statement, unexpected token '" + tokenIDToToken(currentToken));
+                break;
+            case "input_stmt":
+                cli.sendMessage("Invalid input statement. Must specify a variable.");
+                break;
+            case "expr":
+            case "expr'":
+            case "a_expr":
+            case "a_expr'":
+            case "term'":
+                if(getTerminalType(terminalIdx).equals("TYPE")) cli.sendMessage("Cannot have declarations within expressions.");
+                if(getTerminalType(terminalIdx).equals("STATEMENT")) cli.sendMessage("Cannot have statement within expression.");
+                if(getTerminalType(terminalIdx).equals("OPERATOR")) cli.sendMessage("Invalid use of operator '" + tokenIDToToken(currentToken) + "'");
+                else cli.sendMessage("Invalid expression statement, unexpected token '" + tokenIDToToken(currentToken));
+                break;
+            case "factor":
+            case "factor'":
+                 cli.sendMessage("Invalid expression statement, unexpected token '" + tokenIDToToken(currentToken));
+                break;
+            case "relop":
+                cli.sendMessage("Invalid expression, expected relational operator.");
+                break;
+            case "args":
+                cli.sendMessage("Invalid statement, arguments must be enclosed within parentheses.");
+                break;
+            case "args_list":
+                cli.sendMessage("Invalid statement, arguments must be of type int.");
+                break;
+            case "args_list'":
+                cli.sendMessage("Invalid argument list, arguments must be seperated by ','");
+                break;
+        }
     }
+
+    /**
+     * returns the type or actual value of a terminal for error handling
+     * @param terminalIdx terminal idx for parsing table
+     * @return type or value of terminal
+     */
+    String getTerminalType(int terminalIdx){
+        if(terminalIdx == 0 || terminalIdx == 1) return "TYPE";
+        else if(terminalIdx == 2) return "ID";
+        else if(terminalIdx == 3) return "CONSTANT";
+        else if(terminalIdx >= 4 && terminalIdx <= 9) return "STATEMENT";
+        else if(terminalIdx >= 10 && terminalIdx <= 20) return "OPERATOR";
+        else if(terminalIdx == 21) return ";";
+        else if(terminalIdx == 22) return ",";
+        else if(terminalIdx == 23) return "(";
+        else if(terminalIdx == 24) return ")";
+        else if(terminalIdx == 25) return "[";
+        else if(terminalIdx == 26) return "]";
+        else if(terminalIdx == 27) return "{";
+        else if(terminalIdx == 28) return "}";
+        return "NULL";
+    }
+
 }
