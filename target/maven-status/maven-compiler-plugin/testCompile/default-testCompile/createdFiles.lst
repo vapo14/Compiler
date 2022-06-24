@@ -1,1 +1,7 @@
-cs\vapo\DataStructures\CustomVectorTest.class
+cs/vapo/DataStructures/CustomVectorTest.class
+cs/vapo/scanner/DFA/DFATest.class
+cs/vapo/DataStructures/CustomStackTest.class
+cs/vapo/DataStructures/IdentifierSymbolTableTest.class
+cs/vapo/Parser/ParserTests.class
+cs/vapo/DataStructures/ConstantSymbolTableTest.class
+cs/vapo/DataStructures/CustomHashMapTest.class

@@ -1,0 +1,16 @@
+cs/vapo/DataStructures/CustomStack.class
+cs/vapo/DataStructures/IdentifierSymbolTable.class
+cs/vapo/DataStructures/CustomHashMap.class
+cs/vapo/CLI/CLI.class
+cs/vapo/scanner/DFA/TransitionTable.class
+cs/vapo/scanner/MainScannerProcess.class
+cs/vapo/DataStructures/MapNode.class
+cs/vapo/scanner/DFA/DFA.class
+cs/vapo/DataStructures/StackNode.class
+cs/vapo/parser/MainParserProcess.class
+cs/vapo/scanner/tokens/Token.class
+cs/vapo/DataStructures/ConstantSymbolTable.class
+cs/vapo/parser/ParsingTable.class
+cs/vapo/scanner/InputStream.class
+cs/vapo/DataStructures/CustomVector.class
+cs/vapo/Main.class

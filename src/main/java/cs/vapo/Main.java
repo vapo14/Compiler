@@ -32,7 +32,9 @@ public class Main {
         MainScannerProcess msp = new MainScannerProcess();
         CustomVector<Token> tokenStream = msp.initRead(new File(cli.getFileName()));
 
+        if(tokenStream == null) return;
         MainParserProcess parser = new MainParserProcess(tokenStream);
-        parser.parse();
+        if (parser.parse()) cli.sendMessage("Accepted.");
+        cli.sendMessage(identifierSymbolTable.toString());
     }
 }

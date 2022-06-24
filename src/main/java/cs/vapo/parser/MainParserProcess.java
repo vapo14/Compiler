@@ -87,6 +87,9 @@ public class MainParserProcess {
                 noMainMethodError();
                 return false;
             }
+            if(!tokenIDToToken(tokenStream.get(tokenStream.size() - 2)).equals("}")){
+                additionalDeclarationError();
+            }
             return true;
         } else {
             nonTerminalError(stack.peek());
@@ -112,6 +115,13 @@ public class MainParserProcess {
      */
     public void noDeclarationError(){
         cli.sendMessage("Error: Program must have at least one declaration.");
+    }
+
+    /**
+     * Error helper function
+     */
+    public void additionalDeclarationError(){
+        cli.sendMessage("Error: no additional declarations can be made after main method.");
     }
 
     /**
@@ -166,7 +176,7 @@ public class MainParserProcess {
      */
     public void terminalError(String currentGrammarElement){
         Token currentToken = tokenStream.size() == 1 ? tokenStream.get(tokenBufferPointer) : tokenStream.get(tokenBufferPointer - 1);
-        cli.sendMessage("Error in line " + currentToken.getLine() + ", Expected: " + currentGrammarElement + " Got: " + tokenIDToToken(currentToken));
+        cli.sendMessage("Error in line " + currentToken.getLine() + ", expected: " + currentGrammarElement + " got: " + tokenIDToToken(currentToken));
     }
 
     /**
@@ -215,14 +225,8 @@ public class MainParserProcess {
      * @param currentGrammarElement current element on top of stack
      */
     public void nonTerminalError(String currentGrammarElement){
-        Token currentToken;
-        try{
-            currentToken = tokenStream.size() == 1 ? tokenStream.get(tokenBufferPointer) : tokenStream.get(tokenBufferPointer - 1);
-        }catch (ArrayIndexOutOfBoundsException e){
-            cli.sendMessage("Program must begin with a declaration");
-            return;
-        }
-        cli.sendMessage("Error in line " + currentToken.getLine());
+        Token currentToken = tokenStream.get(tokenBufferPointer);
+        cli.sendMessage("Error in line " + currentToken.getLine() + ":" + currentToken.getColumn());
         int terminalIdx = parsingTable.getTerminalIndex(tokenIDToToken(currentToken));
         switch (currentGrammarElement){
             case "program":
@@ -260,13 +264,17 @@ public class MainParserProcess {
                 if(getTerminalType(terminalIdx).equals("TYPE")) cli.sendMessage("Local declarations cannot be void.");
                 if(getTerminalType(terminalIdx).equals("STATEMENT")) cli.sendMessage("Else statement can only follow a previous if statement.");
                 if(getTerminalType(terminalIdx).equals("OPERATOR")) cli.sendMessage("Operators must follow an expression.");
+                if(getTerminalType(terminalIdx).equals("{")) cli.sendMessage("Invalid statement, expected closing token '}'.");
                 else cli.sendMessage("Invalid local declaration, unexpected token '" + tokenIDToToken(currentToken)+"'");
                 break;
             case "stmt_list'":
+                cli.sendMessage("Invalid statement, expected closing token '}'.");
+                break;
             case "stmt":
                 if(getTerminalType(terminalIdx).equals("TYPE")) cli.sendMessage("Cannot have declarations within statements.");
                 if(getTerminalType(terminalIdx).equals("STATEMENT")) cli.sendMessage("Else statement can only follow a previous if statement.");
                 if(getTerminalType(terminalIdx).equals("OPERATOR")) cli.sendMessage("Operators must follow an expression.");
+                if(getTerminalType(terminalIdx).equals("{")) cli.sendMessage("Invalid statement, expected closing token '}'.");
                 else cli.sendMessage("Invalid statement, unexpected token '" + tokenIDToToken(currentToken) +"'");
                 break;
             case "stmt'":
@@ -274,19 +282,21 @@ public class MainParserProcess {
                 if(getTerminalType(terminalIdx).equals("STATEMENT")) cli.sendMessage("Cannot have statement within statement.");
                 if(getTerminalType(terminalIdx).equals("OPERATOR")) cli.sendMessage("Operators must follow an expression.");
                 if(getTerminalType(terminalIdx).equals(";")) cli.sendMessage("Invalid termination of statement.");
-                else cli.sendMessage("Invalid statement, unexpected token '" + tokenIDToToken(currentToken)+"'");
+                if(getTerminalType(terminalIdx).equals("{")) cli.sendMessage("Invalid statement, expected closing token '}'.");
                 break;
             case "stmt''":
                 if(getTerminalType(terminalIdx).equals("TYPE")) cli.sendMessage("Cannot have declarations within statements.");
                 if(getTerminalType(terminalIdx).equals("STATEMENT")) cli.sendMessage("Cannot have statement within statement.");
                 if(getTerminalType(terminalIdx).equals("OPERATOR")) cli.sendMessage("Operators must follow an expression.");
+                if(getTerminalType(terminalIdx).equals("{")) cli.sendMessage("Invalid statement, expected closing token '}'.");
                 else cli.sendMessage("Invalid statement, unexpected token '" + tokenIDToToken(currentToken) + "' , statement must end with a ';'.");
                 break;
             case "selection_stmt'":
                 if(getTerminalType(terminalIdx).equals("TYPE")) cli.sendMessage("Cannot have declarations within statements.");
                 if(getTerminalType(terminalIdx).equals("OPERATOR")) cli.sendMessage("Operators must follow an expression.");
                 if(getTerminalType(terminalIdx).equals(";")) cli.sendMessage("Invalid termination of selection statement.");
-                else cli.sendMessage("Invalid selection statement, unexpected token '" + tokenIDToToken(currentToken));
+                if(getTerminalType(terminalIdx).equals("{")) cli.sendMessage("Invalid statement, expected closing token '}'.");
+                else cli.sendMessage("Invalid selection statement, unexpected token '" + tokenIDToToken(currentToken) + "'");
                 break;
             case "input_stmt":
                 cli.sendMessage("Invalid input statement. Must specify a variable.");
@@ -299,11 +309,11 @@ public class MainParserProcess {
                 if(getTerminalType(terminalIdx).equals("TYPE")) cli.sendMessage("Cannot have declarations within expressions.");
                 if(getTerminalType(terminalIdx).equals("STATEMENT")) cli.sendMessage("Cannot have statement within expression.");
                 if(getTerminalType(terminalIdx).equals("OPERATOR")) cli.sendMessage("Invalid use of operator '" + tokenIDToToken(currentToken) + "'");
-                else cli.sendMessage("Invalid expression statement, unexpected token '" + tokenIDToToken(currentToken));
+                else cli.sendMessage("Invalid expression statement, unexpected token '" + tokenIDToToken(currentToken) + "'");
                 break;
             case "factor":
             case "factor'":
-                 cli.sendMessage("Invalid expression statement, unexpected token '" + tokenIDToToken(currentToken));
+                 cli.sendMessage("Invalid expression statement, unexpected token '" + tokenIDToToken(currentToken) + "'");
                 break;
             case "relop":
                 cli.sendMessage("Invalid expression, expected relational operator.");

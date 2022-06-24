@@ -1,4 +1,343 @@
 -------------------------------------------------------------------------------
 Test set: cs.vapo.scanner.DFA.DFATest
 -------------------------------------------------------------------------------
-Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.63 s - in cs.vapo.scanner.DFA.DFATest
+Tests run: 10, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.052 s <<< FAILURE! - in cs.vapo.scanner.DFA.DFATest
+givenValidCodeWhenRunDFAThenReturnCorrectTokens  Time elapsed: 0.015 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+expected: <Token{id=6}
+Token{id=28, pointer=0}
+Token{id=24}
+Token{id=29, pointer=0}
+Token{id=25}
+Token{id=20}
+Token{id=6}
+Token{id=28, pointer=1}
+Token{id=22}
+Token{id=6}
+Token{id=28, pointer=2}
+Token{id=24}
+Token{id=25}
+Token{id=21}
+Token{id=6}
+Token{id=28, pointer=3}
+Token{id=21}
+Token{id=6}
+Token{id=28, pointer=4}
+Token{id=23}
+Token{id=26}
+Token{id=6}
+Token{id=28, pointer=5}
+Token{id=20}
+Token{id=6}
+Token{id=28, pointer=0}
+Token{id=20}
+Token{id=6}
+Token{id=28, pointer=6}
+Token{id=20}
+Token{id=28, pointer=6}
+Token{id=19}
+Token{id=28, pointer=3}
+Token{id=20}
+Token{id=28, pointer=0}
+Token{id=19}
+Token{id=28, pointer=2}
+Token{id=24}
+Token{id=28, pointer=3}
+Token{id=25}
+Token{id=20}
+Token{id=28, pointer=5}
+Token{id=19}
+Token{id=28, pointer=3}
+Token{id=9}
+Token{id=29, pointer=1}
+Token{id=20}
+Token{id=3}
+Token{id=22}
+Token{id=28, pointer=5}
+Token{id=13}
+Token{id=28, pointer=4}
+Token{id=23}
+Token{id=26}
+Token{id=5}
+Token{id=22}
+Token{id=28, pointer=2}
+Token{id=24}
+Token{id=28, pointer=5}
+Token{id=25}
+Token{id=13}
+Token{id=28, pointer=0}
+Token{id=23}
+Token{id=26}
+Token{id=28, pointer=0}
+Token{id=19}
+Token{id=28, pointer=2}
+Token{id=24}
+Token{id=28, pointer=5}
+Token{id=25}
+Token{id=20}
+Token{id=28, pointer=6}
+Token{id=19}
+Token{id=28, pointer=5}
+Token{id=20}
+Token{id=27}
+Token{id=28, pointer=5}
+Token{id=19}
+Token{id=28, pointer=5}
+Token{id=9}
+Token{id=29, pointer=1}
+Token{id=20}
+Token{id=27}
+Token{id=1}
+Token{id=28, pointer=6}
+Token{id=20}
+Token{id=27}
+Token{id=2}
+Token{id=28, pointer=7}
+Token{id=22}
+Token{id=6}
+Token{id=28, pointer=2}
+Token{id=24}
+Token{id=25}
+Token{id=21}
+Token{id=6}
+Token{id=28, pointer=3}
+Token{id=21}
+Token{id=6}
+Token{id=28, pointer=4}
+Token{id=23}
+Token{id=26}
+Token{id=6}
+Token{id=28, pointer=5}
+Token{id=20}
+Token{id=6}
+Token{id=28, pointer=6}
+Token{id=20}
+Token{id=28, pointer=5}
+Token{id=19}
+Token{id=28, pointer=3}
+Token{id=20}
+Token{id=3}
+Token{id=22}
+Token{id=28, pointer=5}
+Token{id=13}
+Token{id=28, pointer=4}
+Token{id=10}
+Token{id=29, pointer=1}
+Token{id=23}
+Token{id=26}
+Token{id=6}
+Token{id=28, pointer=8}
+Token{id=20}
+Token{id=28, pointer=6}
+Token{id=19}
+Token{id=28, pointer=9}
+Token{id=22}
+Token{id=28, pointer=2}
+Token{id=21}
+Token{id=28, pointer=10}
+Token{id=21}
+Token{id=28, pointer=4}
+Token{id=23}
+Token{id=20}
+Token{id=28, pointer=8}
+Token{id=19}
+Token{id=28, pointer=2}
+Token{id=24}
+Token{id=28, pointer=6}
+Token{id=25}
+Token{id=20}
+Token{id=28, pointer=2}
+Token{id=24}
+Token{id=28, pointer=6}
+Token{id=25}
+Token{id=19}
+Token{id=28, pointer=2}
+Token{id=24}
+Token{id=28, pointer=5}
+Token{id=25}
+Token{id=20}
+Token{id=28, pointer=2}
+Token{id=24}
+Token{id=28, pointer=5}
+Token{id=25}
+Token{id=19}
+Token{id=28, pointer=8}
+Token{id=20}
+Token{id=28, pointer=5}
+Token{id=19}
+Token{id=28, pointer=5}
+Token{id=9}
+Token{id=29, pointer=1}
+Token{id=20}
+Token{id=27}
+Token{id=27}
+> but was: <Token{id=6}
+Token{id=28, pointer=1}
+Token{id=24}
+Token{id=29, pointer=1}
+Token{id=25}
+Token{id=20}
+Token{id=6}
+Token{id=28, pointer=2}
+Token{id=22}
+Token{id=6}
+Token{id=28, pointer=3}
+Token{id=24}
+Token{id=25}
+Token{id=21}
+Token{id=6}
+Token{id=28, pointer=4}
+Token{id=21}
+Token{id=6}
+Token{id=28, pointer=5}
+Token{id=23}
+Token{id=26}
+Token{id=6}
+Token{id=28, pointer=6}
+Token{id=20}
+Token{id=6}
+Token{id=28, pointer=1}
+Token{id=20}
+Token{id=6}
+Token{id=28, pointer=7}
+Token{id=20}
+Token{id=28, pointer=7}
+Token{id=19}
+Token{id=28, pointer=4}
+Token{id=20}
+Token{id=28, pointer=1}
+Token{id=19}
+Token{id=28, pointer=3}
+Token{id=24}
+Token{id=28, pointer=4}
+Token{id=25}
+Token{id=20}
+Token{id=28, pointer=6}
+Token{id=19}
+Token{id=28, pointer=4}
+Token{id=9}
+Token{id=29, pointer=2}
+Token{id=20}
+Token{id=3}
+Token{id=22}
+Token{id=28, pointer=6}
+Token{id=13}
+Token{id=28, pointer=5}
+Token{id=23}
+Token{id=26}
+Token{id=5}
+Token{id=22}
+Token{id=28, pointer=3}
+Token{id=24}
+Token{id=28, pointer=6}
+Token{id=25}
+Token{id=13}
+Token{id=28, pointer=1}
+Token{id=23}
+Token{id=26}
+Token{id=28, pointer=1}
+Token{id=19}
+Token{id=28, pointer=3}
+Token{id=24}
+Token{id=28, pointer=6}
+Token{id=25}
+Token{id=20}
+Token{id=28, pointer=7}
+Token{id=19}
+Token{id=28, pointer=6}
+Token{id=20}
+Token{id=27}
+Token{id=28, pointer=6}
+Token{id=19}
+Token{id=28, pointer=6}
+Token{id=9}
+Token{id=29, pointer=2}
+Token{id=20}
+Token{id=27}
+Token{id=1}
+Token{id=28, pointer=7}
+Token{id=20}
+Token{id=27}
+Token{id=2}
+Token{id=28, pointer=8}
+Token{id=22}
+Token{id=6}
+Token{id=28, pointer=3}
+Token{id=24}
+Token{id=25}
+Token{id=21}
+Token{id=6}
+Token{id=28, pointer=4}
+Token{id=21}
+Token{id=6}
+Token{id=28, pointer=5}
+Token{id=23}
+Token{id=26}
+Token{id=6}
+Token{id=28, pointer=6}
+Token{id=20}
+Token{id=6}
+Token{id=28, pointer=7}
+Token{id=20}
+Token{id=28, pointer=6}
+Token{id=19}
+Token{id=28, pointer=4}
+Token{id=20}
+Token{id=3}
+Token{id=22}
+Token{id=28, pointer=6}
+Token{id=13}
+Token{id=28, pointer=5}
+Token{id=10}
+Token{id=29, pointer=2}
+Token{id=23}
+Token{id=26}
+Token{id=6}
+Token{id=28, pointer=9}
+Token{id=20}
+Token{id=28, pointer=7}
+Token{id=19}
+Token{id=28, pointer=10}
+Token{id=22}
+Token{id=28, pointer=3}
+Token{id=21}
+Token{id=28, pointer=11}
+Token{id=21}
+Token{id=28, pointer=5}
+Token{id=23}
+Token{id=20}
+Token{id=28, pointer=9}
+Token{id=19}
+Token{id=28, pointer=3}
+Token{id=24}
+Token{id=28, pointer=7}
+Token{id=25}
+Token{id=20}
+Token{id=28, pointer=3}
+Token{id=24}
+Token{id=28, pointer=7}
+Token{id=25}
+Token{id=19}
+Token{id=28, pointer=3}
+Token{id=24}
+Token{id=28, pointer=6}
+Token{id=25}
+Token{id=20}
+Token{id=28, pointer=3}
+Token{id=24}
+Token{id=28, pointer=6}
+Token{id=25}
+Token{id=19}
+Token{id=28, pointer=9}
+Token{id=20}
+Token{id=28, pointer=6}
+Token{id=19}
+Token{id=28, pointer=6}
+Token{id=9}
+Token{id=29, pointer=2}
+Token{id=20}
+Token{id=27}
+Token{id=27}
+>
+	at cs.vapo.scanner.DFA.DFATest.givenValidCodeWhenRunDFAThenReturnCorrectTokens(DFATest.java:383)
+

@@ -39,7 +39,7 @@ public class MainScannerProcess {
         inputStream = new InputStream(currentFile);
         dfa = new DFA(inputStream, tokenStream);
         while(inputStream.getCurrentChar() != '\uFFFF' && inputStream.getCurrentChar() != -1){
-            if(dfa.readNextToken() < 0) break;
+            if(dfa.readNextToken() < 0) return null;
         }
         inputStream.closeFile();
         return tokenStream;
